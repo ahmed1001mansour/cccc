@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Ahmed Mansour | قاموس الصف الثالث الإعدادي - الوحدة الأولى (كاملة)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #ffc107; /* Yellow/Amber for Prep 3 */
+            --secondary-color: #6c757d; /* Gray */
+            --accent-color: #28a745; /* Green - Active reading */
+            --bg-color: #f8f9fa; /* Light Gray Background */
+            --card-bg: #ffffff; /* White Card Background */
+            --text-color: #343a40; /* Dark Text */
+            --verb-color: #17a2b8; /* Teal for verbs */
+            --collocations-color: #dc3545; /* Red for Collocations */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            direction: rtl;
+            text-align: right;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #ff9800);
+            color: var(--text-color);
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        header p {
+            color: var(--text-color);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* --- Controls Section --- */
+        .controls-container {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #dee2e6;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        .stop-btn {
+            background-color: #dc3545;
+        }
+
+        #speed-range {
+            width: 120px;
+            cursor: grab;
+            direction: ltr;
+        }
+        
+        /* --- Vocabulary Grid (Responsive) --- */
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding-top: 20px;
+        }
+        
+        /* --- Section Header --- */
+        .section-header {
+            grid-column: 1 / -1;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 1.6em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-top: 15px;
+        }
+        .verbs-header { background-color: var(--verb-color); }
+        .collocations-header { background-color: var(--collocations-color); }
+        .synonyms-header { background-color: #007bff; }
+        .expressions-header { background-color: #343a40; }
+
+        /* --- Word Card Style --- */
+        .word-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
+            position: relative;
+            border-right: 5px solid var(--primary-color);
+            cursor: pointer;
+        }
+        
+        /* Card-specific border/text colors */
+        .verb-card { border-right: 5px solid var(--verb-color); }
+        .verb-card .english-word { color: var(--verb-color); }
+
+        .synonym-card { border-right: 5px solid #007bff; }
+        .synonym-card .english-word { font-size: 1.1em; color: #007bff; }
+
+        .expression-card { border-right: 5px solid #343a40; }
+        .expression-card .english-word { color: #343a40; }
+        
+        .word-card.active-reading {
+            border-right: 5px solid var(--accent-color) !important;
+            background-color: #e9f7ef;
+            transform: scale(1.02);
+        }
+
+        .english-word {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            direction: ltr;
+            text-align: left;
+            font-weight: 700;
+        }
+        
+        .arabic-translation {
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        /* Speak Button */
+        .speak-btn {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            width: 35px;
+            height: 35px;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .speak-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(90deg) scale(0.9);
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mr Ahmed Mansour | الصف الثالث الإعدادي</h1>
+        <p>قاموس تفاعلي للوحدة الأولى: الدروس 1-6 (كامل)</p>
+    </header>
+
+    <div class="controls-container">
+        <div class="control-group">
+            <label for="speed-range">سرعة القراءة:</label>
+            <input type="range" id="speed-range" min="0.5" max="2.0" value="1.0" step="0.1">
+            <span id="speed-value">1.0</span>x
+        </div>
+        <div class="control-group">
+            <button id="play-all-btn" class="control-btn">تشغيل قراءة جميع الكلمات</button>
+            <button id="stop-btn" class="control-btn stop-btn">إيقاف القراءة</button>
+        </div>
+    </div>
+
+    <main class="vocabulary-grid">
+        
+        <div class="section-header">الكلمات المفتاحية الأساسية (الدروس 1-6)</div>
+        
+        <div class="word-card" data-word="communication">
+            <h3 class="english-word">communication (n)</h3>
+            <p class="arabic-translation">تواصل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="relationship">
+            <h3 class="english-word">relationship (n)</h3>
+            <p class="arabic-translation">علاقة / ارتباط / صلة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="misunderstand">
+            <h3 class="english-word">misunderstand (v)</h3>
+            <p class="arabic-translation">يسيء الفهم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="misunderstanding">
+            <h3 class="english-word">misunderstanding (n)</h3>
+            <p class="arabic-translation">سوء فهم / خلاف</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="conflict">
+            <h3 class="english-word">conflict (n)</h3>
+            <p class="arabic-translation">صراع / نزاع</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="supportive">
+            <h3 class="english-word">supportive (adj)</h3>
+            <p class="arabic-translation">مُساند / داعم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="resolve">
+            <h3 class="english-word">resolve (v)</h3>
+            <p class="arabic-translation">يحل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="face-to-face">
+            <h3 class="english-word">face-to-face</h3>
+            <p class="arabic-translation">مباشر / وجهاً لوجه</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="upset">
+            <h3 class="english-word">upset (adj)</h3>
+            <p class="arabic-translation">مُنْزَعِج / حزين</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="thoughtful">
+            <h3 class="english-word">thoughtful (adj)</h3>
+            <p class="arabic-translation">مراعٍ لشعور الآخرين</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="social media">
+            <h3 class="english-word">social media (n)</h3>
+            <p class="arabic-translation">وسائل التواصل الاجتماعي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="avoid">
+            <h3 class="english-word">avoid (v)</h3>
+            <p class="arabic-translation">يتجنب</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="miscommunication">
+            <h3 class="english-word">miscommunication (n)</h3>
+            <p class="arabic-translation">سوء التواصل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="meaningful">
+            <h3 class="english-word">meaningful (adj)</h3>
+            <p class="arabic-translation">مفهوم / ذو معنى / مفيد / هادف</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card" data-word="digital footprint">
+            <h3 class="english-word">digital footprint</h3>
+            <p class="arabic-translation">بصمة رقمية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="privacy">
+            <h3 class="english-word">privacy (n)</h3>
+            <p class="arabic-translation">خصوصية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="secure">
+            <h3 class="english-word">secure (adj)</h3>
+            <p class="arabic-translation">آمن / محكم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="password">
+            <h3 class="english-word">password (n)</h3>
+            <p class="arabic-translation">كلمة سر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="share">
+            <h3 class="english-word">share (v)</h3>
+            <p class="arabic-translation">يشارك</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="trusted">
+            <h3 class="english-word">trusted (adj)</h3>
+            <p class="arabic-translation">موثوق به</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="online">
+            <h3 class="english-word">online (adj/adv)</h3>
+            <p class="arabic-translation">متصل بالإنترنت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="protect">
+            <h3 class="english-word">protect (v)</h3>
+            <p class="arabic-translation">يحمي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="remove">
+            <h3 class="english-word">remove (v)</h3>
+            <p class="arabic-translation">يزيل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="danger">
+            <h3 class="english-word">danger (n)</h3>
+            <p class="arabic-translation">خطر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="stranger">
+            <h3 class="english-word">stranger (n)</h3>
+            <p class="arabic-translation">غريب / شخص غريب</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="profile">
+            <h3 class="english-word">profile (n)</h3>
+            <p class="arabic-translation">ملف شخصي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="ignore">
+            <h3 class="english-word">ignore (v)</h3>
+            <p class="arabic-translation">يتجاهل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="permission">
+            <h3 class="english-word">permission (n)</h3>
+            <p class="arabic-translation">إذن</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="guardian">
+            <h3 class="english-word">guardian (n)</h3>
+            <p class="arabic-translation">حامي / حارس</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card" data-word="silence">
+            <h3 class="english-word">silence (n)</h3>
+            <p class="arabic-translation">صمت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="awkward">
+            <h3 class="english-word">awkward (adj)</h3>
+            <p class="arabic-translation">مربك / غير مريح - غريب</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="reconnect">
+            <h3 class="english-word">reconnect (v)</h3>
+            <p class="arabic-translation">يعيد التواصل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="due to">
+            <h3 class="english-word">due to</h3>
+            <p class="arabic-translation">بسبب</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="distraction">
+            <h3 class="english-word">distraction (n)</h3>
+            <p class="arabic-translation">تشتيت / تلهية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="frustrated">
+            <h3 class="english-word">frustrated (adj)</h3>
+            <p class="arabic-translation">مُحبط / منزعج</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="gesture">
+            <h3 class="english-word">gesture (n)</h3>
+            <p class="arabic-translation">إشارة / إيماءة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="stress">
+            <h3 class="english-word">stress (n)</h3>
+            <p class="arabic-translation">ضغط / توتر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="nod">
+            <h3 class="english-word">nod (v)</h3>
+            <p class="arabic-translation">يومئ برأسه (للموافقة)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="argument">
+            <h3 class="english-word">argument (n)</h3>
+            <p class="arabic-translation">جدال</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="disappear">
+            <h3 class="english-word">disappear (v)</h3>
+            <p class="arabic-translation">يختفي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="discipline">
+            <h3 class="english-word">discipline (n)</h3>
+            <p class="arabic-translation">انضباط / نظام</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card" data-word="clue">
+            <h3 class="english-word">clue (n)</h3>
+            <p class="arabic-translation">دليل / مفتاح للحل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="online identity">
+            <h3 class="english-word">online identity (n)</h3>
+            <p class="arabic-translation">الهوية عبر الإنترنت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="collect">
+            <h3 class="english-word">collect (v)</h3>
+            <p class="arabic-translation">يجمع</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="active">
+            <h3 class="english-word">active (adj)</h3>
+            <p class="arabic-translation">نشط / إيجابي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="passive">
+            <h3 class="english-word">passive (adj)</h3>
+            <p class="arabic-translation">سلبي / غير مباشر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="careful">
+            <h3 class="english-word">careful (adj)</h3>
+            <p class="arabic-translation">حريص / حذر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="comment">
+            <h3 class="english-word">comment (n)</h3>
+            <p class="arabic-translation">تعليق</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="present">
+            <h3 class="english-word">present (v)</h3>
+            <p class="arabic-translation">يُقدم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="identify">
+            <h3 class="english-word">identify (v)</h3>
+            <p class="arabic-translation">يتعرف على / يحدد</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="thief">
+            <h3 class="english-word">thief (n)</h3>
+            <p class="arabic-translation">لص</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="details">
+            <h3 class="english-word">details (n)</h3>
+            <p class="arabic-translation">تفاصيل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="managing">
+            <h3 class="english-word">managing (n)</h3>
+            <p class="arabic-translation">إدارة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="word-card" data-word="real">
+            <h3 class="english-word">real (adj)</h3>
+            <p class="arabic-translation">حقيقي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="openly">
+            <h3 class="english-word">openly (adv)</h3>
+            <p class="arabic-translation">بصراحة / بوضوح</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="absolutely">
+            <h3 class="english-word">absolutely (adv)</h3>
+            <p class="arabic-translation">بالتأكيد / إطلاقاً</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="skill">
+            <h3 class="english-word">skill (n)</h3>
+            <p class="arabic-translation">مهارة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="proper">
+            <h3 class="english-word">proper (adj)</h3>
+            <p class="arabic-translation">ملائم / مناسب</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="glad">
+            <h3 class="english-word">glad (adj)</h3>
+            <p class="arabic-translation">سعيد</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="determination">
+            <h3 class="english-word">determination (n)</h3>
+            <p class="arabic-translation">عزيمة / إصرار</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="importance">
+            <h3 class="english-word">importance (n)</h3>
+            <p class="arabic-translation">أهمية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="feelings">
+            <h3 class="english-word">feelings (n)</h3>
+            <p class="arabic-translation">مشاعر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="honest">
+            <h3 class="english-word">honest (adj)</h3>
+            <p class="arabic-translation">أمين</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="argue">
+            <h3 class="english-word">argue (v)</h3>
+            <p class="arabic-translation">يناقش / يجادل</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="tough">
+            <h3 class="english-word">tough (adj)</h3>
+            <p class="arabic-translation">قاس / صعب</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="advice">
+            <h3 class="english-word">advice (n)</h3>
+            <p class="arabic-translation">نصيحة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="opinion">
+            <h3 class="english-word">opinion (n)</h3>
+            <p class="arabic-translation">رأي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="permanent">
+            <h3 class="english-word">permanent (adj)</h3>
+            <p class="arabic-translation">دائم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card" data-word="clear">
+            <h3 class="english-word">clear (adj)</h3>
+            <p class="arabic-translation">واضح</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        
+        <div class="section-header verbs-header">تصريف الأفعال غير المنتظمة (Irregular Verbs)</div>
+
+        <div class="word-card verb-card" data-word="misunderstand, misunderstood, misunderstood">
+            <h3 class="english-word">misunderstand - misunderstood - misunderstood</h3>
+            <p class="arabic-translation">يسيء الفهم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="forgive, forgave, forgiven">
+            <h3 class="english-word">forgive - forgave - forgiven</h3>
+            <p class="arabic-translation">يسامح / يغفر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="forget, forgot, forgotten">
+            <h3 class="english-word">forget - forgot - forgotten</h3>
+            <p class="arabic-translation">ينسى</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="speak, spoke, spoken">
+            <h3 class="english-word">speak - spoke - spoken</h3>
+            <p class="arabic-translation">يتحدث</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="lead, led, led">
+            <h3 class="english-word">lead - led - led</h3>
+            <p class="arabic-translation">يقود / يؤدي</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="bring, brought, brought">
+            <h3 class="english-word">bring - brought - brought</h3>
+            <p class="arabic-translation">يحضر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="leave, left, left">
+            <h3 class="english-word">leave - left - left</h3>
+            <p class="arabic-translation">يغادر / يترك</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="keep, kept, kept">
+            <h3 class="english-word">keep - kept - kept</h3>
+            <p class="arabic-translation">يحفظ / يحتفظ</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="find, found, found">
+            <h3 class="english-word">find - found - found</h3>
+            <p class="arabic-translation">يجد</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="set, set, set">
+            <h3 class="english-word">set - set - set</h3>
+            <p class="arabic-translation">يعد / يضبط / يضع</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="hurt, hurt, hurt">
+            <h3 class="english-word">hurt - hurt - hurt</h3>
+            <p class="arabic-translation">يؤذي / يجرح</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="mean, meant, meant">
+            <h3 class="english-word">mean - meant - meant</h3>
+            <p class="arabic-translation">يعني / يقصد</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="word-card verb-card" data-word="sit, sat, sat">
+            <h3 class="english-word">sit - sat - sat</h3>
+            <p class="arabic-translation">يجلس</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="break, broke, broken">
+            <h3 class="english-word">break - broke - broken</h3>
+            <p class="arabic-translation">يكسر / يوقف</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="put, put, put">
+            <h3 class="english-word">put - put - put</h3>
+            <p class="arabic-translation">يضع</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="become, became, become">
+            <h3 class="english-word">become - became - become</h3>
+            <p class="arabic-translation">يصبح</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="word-card verb-card" data-word="rebuild, rebuilt, rebuilt">
+            <h3 class="english-word">rebuild - rebuilt - rebuilt</h3>
+            <p class="arabic-translation">يعيد بناء</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="get, got, got">
+            <h3 class="english-word">get - got - got</h3>
+            <p class="arabic-translation">يحصل على</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="say, said, said">
+            <h3 class="english-word">say - said - said</h3>
+            <p class="arabic-translation">يقول</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="understand, understood, understood">
+            <h3 class="english-word">understand - understood - understood</h3>
+            <p class="arabic-translation">يفهم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="steal, stole, stolen">
+            <h3 class="english-word">steal - stole - stolen</h3>
+            <p class="arabic-translation">يسرق</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card verb-card" data-word="tell, told, told">
+            <h3 class="english-word">tell - told - told</h3>
+            <p class="arabic-translation">يخبر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="section-header collocations-header">المتلازمات اللفظية (Collocations)</div>
+        
+        <div class="word-card expression-card" data-word="make time">
+            <h3 class="english-word">make time</h3>
+            <p class="arabic-translation">يخصص وقت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="get worse">
+            <h3 class="english-word">get worse</h3>
+            <p class="arabic-translation">يتدهور / يسوء</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="have a conversation">
+            <h3 class="english-word">have a conversation</h3>
+            <p class="arabic-translation">يُجري محادثة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="make misunderstanding">
+            <h3 class="english-word">make misunderstanding</h3>
+            <p class="arabic-translation">يسبب سوء فهم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="use strong passwords">
+            <h3 class="english-word">use strong passwords</h3>
+            <p class="arabic-translation">يستخدم كلمات سر قوية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="protect your privacy">
+            <h3 class="english-word">protect your privacy</h3>
+            <p class="arabic-translation">يحمي خصوصيتك</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="share personal data">
+            <h3 class="english-word">share personal data</h3>
+            <p class="arabic-translation">يُشارك بيانات شخصية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="keep information secure">
+            <h3 class="english-word">keep information secure</h3>
+            <p class="arabic-translation">يُحافظ على أمان المعلومات</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="leave a trace">
+            <h3 class="english-word">leave a trace</h3>
+            <p class="arabic-translation">يترك أثراً / بصمة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card expression-card" data-word="break silence">
+            <h3 class="english-word">break silence</h3>
+            <p class="arabic-translation">يكسر حاجز الصمت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="nod head">
+            <h3 class="english-word">nod head</h3>
+            <p class="arabic-translation">يومئ برأسه</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="spend money">
+            <h3 class="english-word">spend money</h3>
+            <p class="arabic-translation">ينفق مال</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="show emotion">
+            <h3 class="english-word">show emotion</h3>
+            <p class="arabic-translation">يُظهر العاطفة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="section-header expressions-header">تعبيرات وحروف جر هامة</div>
+        
+        <div class="word-card expression-card" data-word="find it hard">
+            <h3 class="english-word">find it hard</h3>
+            <p class="arabic-translation">يجدها صعبة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="stay in touch or stay connected">
+            <h3 class="english-word">stay in touch / stay connected</h3>
+            <p class="arabic-translation">يبقى على اتصال</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="in person">
+            <h3 class="english-word">in person</h3>
+            <p class="arabic-translation">وجهاً لوجه / بصورة شخصية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="close relationship">
+            <h3 class="english-word">close relationship</h3>
+            <p class="arabic-translation">علاقة قوية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="feel heard">
+            <h3 class="english-word">feel heard</h3>
+            <p class="arabic-translation">يشعر بالاهتمام</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="feel respected">
+            <h3 class="english-word">feel respected</h3>
+            <p class="arabic-translation">يشعر بالاحترام</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="tone of voice">
+            <h3 class="english-word">tone of voice</h3>
+            <p class="arabic-translation">نبرة الصوت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="active listening">
+            <h3 class="english-word">active listening</h3>
+            <p class="arabic-translation">استماع فعال / إنصات تام</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="express regret">
+            <h3 class="english-word">express regret</h3>
+            <p class="arabic-translation">يعبر عن الندم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="connect with">
+            <h3 class="english-word">connect with</h3>
+            <p class="arabic-translation">يتواصل مع</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="according to">
+            <h3 class="english-word">according to</h3>
+            <p class="arabic-translation">وفقاً لـ / طبقاً لـ</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="solution to">
+            <h3 class="english-word">solution to</h3>
+            <p class="arabic-translation">حل لـ...</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card expression-card" data-word="leave a mark">
+            <h3 class="english-word">leave a mark</h3>
+            <p class="arabic-translation">يترك أثر / علامة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="stay secure">
+            <h3 class="english-word">stay secure</h3>
+            <p class="arabic-translation">يظل آمناً</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="check privacy settings">
+            <h3 class="english-word">check privacy settings</h3>
+            <p class="arabic-translation">يتحقق من إعدادات الخصوصية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="at risk">
+            <h3 class="english-word">at risk</h3>
+            <p class="arabic-translation">معرض للخطر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="think before you post">
+            <h3 class="english-word">think before you post</h3>
+            <p class="arabic-translation">يفكر قبل النشر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="set properly">
+            <h3 class="english-word">set properly</h3>
+            <p class="arabic-translation">يحدد بدقة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="in the digital age">
+            <h3 class="english-word">in the digital age</h3>
+            <p class="arabic-translation">في عصر التكنولوجيا الرقمية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="without permission">
+            <h3 class="english-word">without permission</h3>
+            <p class="arabic-translation">بدون إذن / تصريح</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="be careful with">
+            <h3 class="english-word">be careful with</h3>
+            <p class="arabic-translation">كن حذراً مع (بشأن)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="on the internet">
+            <h3 class="english-word">on the internet</h3>
+            <p class="arabic-translation">على الإنترنت</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="word-card expression-card" data-word="seem frustrated">
+            <h3 class="english-word">seem frustrated</h3>
+            <p class="arabic-translation">يبدو مُحبط</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="feel awkward">
+            <h3 class="english-word">feel awkward</h3>
+            <p class="arabic-translation">يشعر بغرابة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="build a relationship">
+            <h3 class="english-word">build a relationship</h3>
+            <p class="arabic-translation">يبني علاقة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="pay attention">
+            <h3 class="english-word">pay attention</h3>
+            <p class="arabic-translation">ينتبه</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="filled with laughter">
+            <h3 class="english-word">filled with laughter</h3>
+            <p class="arabic-translation">مليء بالضحك</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="put down">
+            <h3 class="english-word">put down</h3>
+            <p class="arabic-translation">ينزل - يخفض</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="instead of">
+            <h3 class="english-word">instead of</h3>
+            <p class="arabic-translation">بدلاً من</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="argument over">
+            <h3 class="english-word">argument over</h3>
+            <p class="arabic-translation">جدال حول</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="think before you share">
+            <h3 class="english-word">think before you share</h3>
+            <p class="arabic-translation">يفكر قبل أن تشارك</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        <div class="word-card expression-card" data-word="I totally agree">
+            <h3 class="english-word">I totally agree</h3>
+            <p class="arabic-translation">أتفق تماماً - أوافق كلياً</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="Right?">
+            <h3 class="english-word">Right?</h3>
+            <p class="arabic-translation">أليس كذلك؟ / هل توافق؟</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="so true">
+            <h3 class="english-word">so true</h3>
+            <p class="arabic-translation">حقيقي جداً - صحيح جداً</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="cause misunderstanding">
+            <h3 class="english-word">cause misunderstanding</h3>
+            <p class="arabic-translation">يسبب سوء فهم</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="take courage">
+            <h3 class="english-word">take courage</h3>
+            <p class="arabic-translation">يتطلب شجاعة</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="talk openly">
+            <h3 class="english-word">talk openly</h3>
+            <p class="arabic-translation">يتحدث بانفتاح أو بحرية</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="no doubt">
+            <h3 class="english-word">no doubt</h3>
+            <p class="arabic-translation">بلا شك</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="end up">
+            <h3 class="english-word">end up</h3>
+            <p class="arabic-translation">ينتهي بهم الأمر</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="upset with">
+            <h3 class="english-word">upset with</h3>
+            <p class="arabic-translation">متضايق من</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="turn into">
+            <h3 class="english-word">turn into</h3>
+            <p class="arabic-translation">يتحول إلى</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="honest about">
+            <h3 class="english-word">honest about</h3>
+            <p class="arabic-translation">أمين بشأن</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card expression-card" data-word="close to">
+            <h3 class="english-word">close to</h3>
+            <p class="arabic-translation">قريب من</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+        
+        <div class="section-header synonyms-header">المترادفات والمضادات (Synonyms & Antonyms)</div>
+
+        <div class="word-card synonym-card" data-word="care, concern, regard, ignore">
+            <h3 class="english-word">care / (Synonym: concern, regard) / (Antonym: ignore)</h3>
+            <p class="arabic-translation">يهتم (المرادف: concern / regard، المضاد: ignore)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="stay in touch, keep in touch, lose touch with">
+            <h3 class="english-word">stay in touch / (Synonym: keep in touch) / (Antonym: lose touch with)</h3>
+            <p class="arabic-translation">يظل على اتصال (المرادف: keep in touch، المضاد: lose touch with)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="conflict, disagreement, argument, agreement, harmony">
+            <h3 class="english-word">conflict / (Synonyms: disagreement, argument) / (Antonyms: agreement, harmony)</h3>
+            <p class="arabic-translation">خلاف / صراع (المرادف: disagreement / argument، المضاد: agreement / harmony)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="respectful, polite, disrespectful">
+            <h3 class="english-word">respectful / (Synonym: polite) / (Antonym: disrespectful)</h3>
+            <p class="arabic-translation">مُحترم للآخرين (المرادف: polite، المضاد: disrespectful)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="upset, worried, disturbed, relaxed, happy">
+            <h3 class="english-word">upset / (Synonyms: worried, disturbed) / (Antonyms: relaxed, happy)</h3>
+            <p class="arabic-translation">قلق / منزعج (المرادف: worried / disturbed، المضاد: relaxed / happy)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="thoughtful, helpful, friendly, wise, unkind, thoughtless">
+            <h3 class="english-word">thoughtful / (Synonyms: helpful, friendly, wise) / (Antonyms: unkind, thoughtless)</h3>
+            <p class="arabic-translation">مراعٍ لشعور الآخرين (المرادف: helpful / friendly / wise، المضاد: unkind / thoughtless)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="strengthen, support, promote, weaken">
+            <h3 class="english-word">strengthen / (Synonyms: support, promote) / (Antonym: weaken)</h3>
+            <p class="arabic-translation">يقوي / يعزز (المرادف: support / promote، المضاد: weaken)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="serious, dangerous, important, unimportant">
+            <h3 class="english-word">serious / (Synonyms: dangerous, important) / (Antonym: unimportant)</h3>
+            <p class="arabic-translation">جاد / خطير (المرادف: dangerous / important، المضاد: unimportant)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="honest, trusted, sincere, liar, deceitful">
+            <h3 class="english-word">honest / (Synonyms: trusted, sincere) / (Antonyms: liar, deceitful)</h3>
+            <p class="arabic-translation">أمين (المرادف: trusted / sincere، المضاد: liar / deceitful)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card synonym-card" data-word="silence, peace, quietness, noise">
+            <h3 class="english-word">silence / (Synonyms: peace, quietness) / (Antonym: noise)</h3>
+            <p class="arabic-translation">صمت / سكوت (المرادف: peace / quietness، المضاد: noise)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="strange, unusual, weird, usual, common">
+            <h3 class="english-word">strange / (Synonyms: unusual, weird) / (Antonym: usual, common)</h3>
+            <p class="arabic-translation">غريب (المرادف: unusual / weird، المضاد: usual / common)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="awkward, difficult, uncomfortable, pleasant, comfortable">
+            <h3 class="english-word">awkward / (Synonyms: difficult, uncomfortable) / (Antonym: pleasant, comfortable)</h3>
+            <p class="arabic-translation">مربك / غير ملائم (المرادف: difficult / uncomfortable، المضاد: pleasant / comfortable)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="frustrated, disappointed, satisfied, delighted">
+            <h3 class="english-word">frustrated / (Synonym: disappointed) / (Antonym: satisfied, delighted)</h3>
+            <p class="arabic-translation">مُحبط (المرادف: disappointed، المضاد: satisfied / delighted)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="distraction, disorder, confusion, concentration, focus">
+            <h3 class="english-word">distraction / (Synonyms: disorder, confusion) / (Antonyms: concentration, focus)</h3>
+            <p class="arabic-translation">تشتيت / عدم انتباه (المرادف: disorder / confusion، المضاد: concentration / focus)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="meaningful, useful, significant, meaningless, insignificant">
+            <h3 class="english-word">meaningful / (Synonyms: useful, significant) / (Antonyms: meaningless, insignificant)</h3>
+            <p class="arabic-translation">ذو معنى (المرادف: useful / significant، المضاد: meaningless / insignificant)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="discipline, control, rule, chaos">
+            <h3 class="english-word">discipline / (Synonym: control, rule) / (Antonym: chaos)</h3>
+            <p class="arabic-translation">انضباط / نظام (المرادف: control / rule، المضاد: chaos)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card synonym-card" data-word="secure, safe, protected, insecure, unsafe">
+            <h3 class="english-word">secure / (Synonym: safe, protected) / (Antonym: insecure, unsafe)</h3>
+            <p class="arabic-translation">آمن (المرادف: safe / protected، المضاد: insecure / unsafe)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="strong, powerful, weak">
+            <h3 class="english-word">strong / (Synonym: powerful) / (Antonym: weak)</h3>
+            <p class="arabic-translation">قوي (المرادف: powerful، المضاد: weak)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="careful, cautious, careless">
+            <h3 class="english-word">careful / (Synonyms: cautious) / (Antonym: careless)</h3>
+            <p class="arabic-translation">حذر (المرادف: cautious، المضاد: careless)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="private, personal, confidential, public">
+            <h3 class="english-word">private / (Synonyms: personal, confidential) / (Antonym: public)</h3>
+            <p class="arabic-translation">خاص (المرادف: personal / confidential، المضاد: public)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="remove, delete, erase, add, keep">
+            <h3 class="english-word">remove / (Synonyms: delete, erase) / (Antonyms: add, keep)</h3>
+            <p class="arabic-translation">يزيل (المرادف: delete / erase، المضاد: add / keep)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="active, energetic, lively, passive, inactive">
+            <h3 class="english-word">active / (Synonyms: energetic, lively) / (Antonym: passive, inactive)</h3>
+            <p class="arabic-translation">نشط (المرادف: energetic / lively، المضاد: passive / inactive)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="trusted, reliable, dependable, untrusted, unreliable">
+            <h3 class="english-word">trusted / (Synonyms: reliable, dependable) / (Antonym: untrusted, unreliable)</h3>
+            <p class="arabic-translation">موثوق (المرادف: reliable / dependable، المضاد: untrusted / unreliable)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="unsafe, dangerous, risky, safe, secure">
+            <h3 class="english-word">unsafe / (Synonyms: dangerous, risky) / (Antonym: safe, secure)</h3>
+            <p class="arabic-translation">غير آمن (المرادف: dangerous / risky، المضاد: safe / secure)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="forever, always, eternally, never, temporarily">
+            <h3 class="english-word">forever / (Synonym: always, eternally) / (Antonym: never, temporarily)</h3>
+            <p class="arabic-translation">للأبد (المرادف: always / eternally، المضاد: never / temporarily)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="trace, mark, sign, loss, disappearance">
+            <h3 class="english-word">trace / (Synonyms: mark, sign) / (Antonym: loss, disappearance)</h3>
+            <p class="arabic-translation">أثر / علامة (المرادف: mark / sign، المضاد: loss / disappearance)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+
+        <div class="word-card synonym-card" data-word="fix, repair, mend, damage, break">
+            <h3 class="english-word">fix / (Synonyms: repair, mend) / (Antonym: damage, break)</h3>
+            <p class="arabic-translation">يصلح (المرادف: repair / mend، المضاد: damage / break)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="glad, pleased, happy, delighted, unhappy, upset">
+            <h3 class="english-word">glad / (Synonyms: pleased, happy, delighted) / (Antonyms: unhappy, upset)</h3>
+            <p class="arabic-translation">سعيد (المرادف: pleased / happy / delighted، المضاد: unhappy / upset)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="doubt, distrust, uncertainty, trust, belief">
+            <h3 class="english-word">doubt / (Synonyms: distrust, uncertainty) / (Antonym: trust, belief)</h3>
+            <p class="arabic-translation">شك (المرادف: distrust / uncertainty، المضاد: trust / belief)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="simple, easy, complex, difficult">
+            <h3 class="english-word">simple / (Synonym: easy) / (Antonym: complex, difficult)</h3>
+            <p class="arabic-translation">بسيط (المرادف: easy، المضاد: complex / difficult)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="permanent, lasting, forever, temporary">
+            <h3 class="english-word">permanent / (Synonyms: lasting, forever) / (Antonym: temporary)</h3>
+            <p class="arabic-translation">دائم (المرادف: lasting / forever، المضاد: temporary)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="scary, frightening, safe">
+            <h3 class="english-word">scary / (Synonym: frightening) / (Antonym: safe)</h3>
+            <p class="arabic-translation">مخيف (المرادف: frightening، المضاد: safe)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        <div class="word-card synonym-card" data-word="adult, mature, grown-up, child, kid">
+            <h3 class="english-word">adult / (Synonyms: mature, grown-up) / (Antonym: child, kid)</h3>
+            <p class="arabic-translation">بالغ / راشد (المرادف: mature / grown-up، المضاد: child / kid)</p>
+            <button class="speak-btn" aria-label="النطق الصوتي"></button>
+        </div>
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.word-card');
+            const speakBtns = document.querySelectorAll('.speak-btn');
+            const playAllBtn = document.getElementById('play-all-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            const speedRange = document.getElementById('speed-range');
+            const speedValueSpan = document.getElementById('speed-value');
+            const synth = window.speechSynthesis;
+            let isReadingAll = false;
+            let wordIndex = 0;
+            let currentUtterance = null;
+            let readingSpeed = parseFloat(speedRange.value);
+
+            // Function to handle speaking the text
+            const speakText = (text, speed, callback) => {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                currentUtterance.lang = 'en-US'; // English language for pronunciation
+                currentUtterance.rate = speed;
+                
+                currentUtterance.onend = () => {
+                    if (callback) {
+                        callback();
+                    }
+                };
+
+                currentUtterance.onerror = (event) => {
+                    console.error('SpeechSynthesis Utterance Error:', event.error);
+                };
+
+                synth.speak(currentUtterance);
+            };
+
+            // --- Core Speaking Function for Individual Card or Sequence ---
+            const speakWordOrWords = (card, speed, sequenceCallback) => {
+                const fullText = card.getAttribute('data-word');
+                // Split by comma for sequential reading (used for verbs and synonyms/antonyms)
+                const wordsToSpeak = fullText.split(',').map(word => word.trim()).filter(word => word.length > 0);
+                let wordPartIndex = 0;
+                
+                const speakNextPart = () => {
+                    if (wordPartIndex >= wordsToSpeak.length) {
+                        // Finished reading all parts
+                        if (sequenceCallback) {
+                            sequenceCallback();
+                        } else {
+                            // Single word reading finished
+                            card.classList.remove('active-reading');
+                        }
+                        return;
+                    }
+
+                    const part = wordsToSpeak[wordPartIndex];
+                    
+                    // Small local callback to proceed to the next part after current part finishes
+                    speakText(part, speed, () => {
+                        wordPartIndex++;
+                        // Add a small pause if it's a synonym/antonym card and not the last word
+                        if (card.classList.contains('synonym-card') && wordPartIndex < wordsToSpeak.length) {
+                            setTimeout(speakNextPart, 300); // 300ms pause between related words
+                        } else {
+                            speakNextPart(); 
+                        }
+                    });
+                };
+                
+                // Highlight the current card (if not already highlighted)
+                if (!card.classList.contains('active-reading')) {
+                    cards.forEach(c => c.classList.remove('active-reading'));
+                    card.classList.add('active-reading');
+                }
+
+                // Start speaking the sequence of words/parts
+                speakNextPart();
+            };
+
+
+            // --- Sequential Reading Logic for "Play All" ---
+            const readNextWord = () => {
+                if (!isReadingAll || wordIndex >= cards.length) {
+                    isReadingAll = false;
+                    wordIndex = 0; // Reset for next "read all"
+                    cards.forEach(card => card.classList.remove('active-reading'));
+                    return; // Stop the sequence
+                }
+
+                const currentCard = cards[wordIndex];
+                
+                // Highlight the current card
+                cards.forEach(card => card.classList.remove('active-reading'));
+                currentCard.classList.add('active-reading');
+
+                // Scroll the active card into view
+                currentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Speak the word/words, and on completion, move to the next
+                speakWordOrWords(currentCard, readingSpeed, () => {
+                    wordIndex++;
+                    readNextWord(); // Recursively call for the next word
+                });
+            };
+
+            // --- Event Listeners ---
+
+            // 1. Individual Card Click (Speak Button)
+            speakBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    isReadingAll = false;
+                    synth.cancel();
+                    const card = e.currentTarget.closest('.word-card');
+                    
+                    speakWordOrWords(card, readingSpeed, null);
+                });
+            });
+
+            // 2. Individual Card Click (Anywhere on the card, but not the button)
+            cards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('speak-btn')) {
+                        isReadingAll = false;
+                        synth.cancel();
+
+                        speakWordOrWords(card, readingSpeed, null);
+                    }
+                });
+            });
+
+            // 3. Play All Button
+            playAllBtn.addEventListener('click', () => {
+                if (synth.speaking && isReadingAll) {
+                    return;
+                }
+                
+                isReadingAll = true;
+                wordIndex = 0; 
+                synth.cancel();
+                readNextWord();
+            });
+
+            // 4. Stop Button
+            stopBtn.addEventListener('click', () => {
+                synth.cancel();
+                isReadingAll = false;
+                wordIndex = 0;
+                cards.forEach(card => card.classList.remove('active-reading'));
+            });
+
+            // 5. Speed Control
+            speedRange.addEventListener('input', (e) => {
+                readingSpeed = parseFloat(e.target.value);
+                speedValueSpan.textContent = readingSpeed.toFixed(1);
+            });
+        });
+    </script>
+</body>
+</html>
