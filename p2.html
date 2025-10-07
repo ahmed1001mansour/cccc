@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr Ahmed Mansour | قاموس إنجليزي-عربي تفاعلي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --accent-color: #28a745;
+  --bg-color: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-color: #343a40;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--bg-color);
+  color:var(--text-color);
+  padding:20px;
+}
+header{
+  background:linear-gradient(135deg,var(--primary-color),#0056b3);
+  color:#fff;padding:30px 20px;margin-bottom:30px;border-radius:10px;text-align:center;
+}
+header h1{font-size:2.5em;margin-bottom:5px}
+.controls-container{
+  background:var(--card-bg);
+  padding:15px 20px;
+  margin-bottom:30px;
+  border-radius:8px;
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:15px;
+  border:1px solid #dee2e6;
+}
+.control-btn{
+  padding:10px 15px;border:none;border-radius:5px;font-size:1em;cursor:pointer;
+  background:var(--accent-color);color:white;font-weight:bold;
+}
+.control-btn:hover{background:#1e7e34}
+.stop-btn{background:#dc3545}
+.stop-btn:hover{background:#c82333}
+#speed-range{width:120px;direction:ltr}
+.vocabulary-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:20px;
+}
+.word-card{
+  background:var(--card-bg);
+  padding:20px;border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  border-right:5px solid var(--primary-color);
+  cursor:pointer;position:relative;
+  transition:.2s;
+}
+.word-card.active-reading{
+  border-right:5px solid var(--accent-color);
+  background:#e9f7ef;transform:scale(1.02);
+}
+.english-word{font-size:1.4em;color:var(--primary-color);text-align:left}
+.arabic-translation{font-size:1.1em;color:var(--secondary-color);margin-bottom:10px}
+.speak-btn{
+  position:absolute;bottom:15px;left:15px;width:35px;height:35px;
+  background:var(--accent-color);border:none;border-radius:50%;cursor:pointer;
+}
+.speak-btn::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(90deg);
+  border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:10px solid #fff;
+}
+.section-header{
+  grid-column:1/-1;background:var(--primary-color);color:#fff;
+  padding:10px 20px;border-radius:8px;font-size:1.3em;
+}
+@media(max-width:600px){
+  .vocabulary-grid{grid-template-columns:1fr}
+  .controls-container{flex-direction:column;align-items:stretch}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Mr Ahmed Mansour</h1>
+<p>قاموس إنجليزي-عربي تفاعلي لتعلم الكلمات والعبارات</p>
+</header>
+
+<div class="controls-container">
+  <div>
+    <label for="speed-range">سرعة القراءة:</label>
+    <input type="range" id="speed-range" min="0.5" max="2" step="0.1" value="1">
+    <span id="speed-value">1.0</span>x
+  </div>
+  <div>
+    <button id="play-all-btn" class="control-btn">تشغيل الجميع</button>
+    <button id="stop-btn" class="control-btn stop-btn">إيقاف</button>
+  </div>
+</div>
+
+<main class="vocabulary-grid">
+  <div class="section-header">كلمات تجريبية</div>
+  <div class="word-card" data-word="use strong passwords">
+    <h3 class="english-word">use strong passwords</h3>
+    <p class="arabic-translation">استخدم كلمات سر قوية</p>
+    <button class="speak-btn"></button>
+  </div>
+  <div class="word-card" data-word="protect your privacy">
+    <h3 class="english-word">protect your privacy</h3>
+    <p class="arabic-translation">احمِ خصوصيتك</p>
+    <button class="speak-btn"></button>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const synth=window.speechSynthesis;
+  const cards=document.querySelectorAll('.word-card');
+  const speakBtns=document.querySelectorAll('.speak-btn');
+  const playAllBtn=document.getElementById('play-all-btn');
+  const stopBtn=document.getElementById('stop-btn');
+  const speedRange=document.getElementById('speed-range');
+  const speedValue=document.getElementById('speed-value');
+  let speed=1, isReading=false, index=0, unlocked=false;
+
+  // تحقق من دعم الصوت
+  if(!('speechSynthesis' in window)){
+    alert('متصفحك لا يدعم النطق الصوتي. جرب Google Chrome.');
+    return;
+  }
+
+  // السماح بالتشغيل بعد أول تفاعل
+  const enableAudio=()=>{
+    if(!unlocked){
+      const u=new SpeechSynthesisUtterance(' ');
+      synth.speak(u);
+      unlocked=true;
+    }
+  };
+  document.body.addEventListener('click',enableAudio,{once:true});
+
+  const speak=(text,cb)=>{
+    if(!unlocked){alert('اضغط في أي مكان لتفعيل الصوت أولاً.');return;}
+    synth.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US';u.rate=speed;
+    u.onend=()=>{cards.forEach(c=>c.classList.remove('active-reading'));cb&&cb();};
+    synth.speak(u);
+  };
+
+  const next=()=>{
+    if(!isReading||index>=cards.length){isReading=false;index=0;return;}
+    const card=cards[index];
+    const text=card.dataset.word;
+    cards.forEach(c=>c.classList.remove('active-reading'));
+    card.classList.add('active-reading');
+    speak(text,()=>{index++;next();});
+  };
+
+  cards.forEach(c=>{
+    c.addEventListener('click',()=>{
+      isReading=false;synth.cancel();
+      cards.forEach(x=>x.classList.remove('active-reading'));
+      c.classList.add('active-reading');
+      speak(c.dataset.word);
+    });
+  });
+
+  speakBtns.forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      const card=b.closest('.word-card');
+      isReading=false;synth.cancel();
+      cards.forEach(x=>x.classList.remove('active-reading'));
+      card.classList.add('active-reading');
+      speak(card.dataset.word);
+    });
+  });
+
+  playAllBtn.addEventListener('click',()=>{
+    if(synth.speaking&&isReading)return;
+    isReading=true;index=0;synth.cancel();next();
+  });
+  stopBtn.addEventListener('click',()=>{
+    synth.cancel();isReading=false;index=0;cards.forEach(c=>c.classList.remove('active-reading'));
+  });
+  speedRange.addEventListener('input',e=>{
+    speed=parseFloat(e.target.value);
+    speedValue.textContent=speed.toFixed(1);
+  });
+});
+</script>
+</body>
+</html>
