@@ -1,454 +1,721 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mr Ahmed Mansour | بطاقات الكلمات الإنجليزية</title>
-  <style>
-    :root{
-      --primary:#007bff; --accent:#28a745; --bg:#f8f9fa; --card:#fff;
-      --text:#343a40; --shadow:0 6px 18px rgba(0,0,0,0.08); --radius:12px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Cairo", "Segoe UI", Tahoma, sans-serif;background:var(--bg);color:var(--text);padding-bottom:90px;direction:rtl}
-    header{background:var(--primary);color:#fff;padding:18px;text-align:center;box-shadow:var(--shadow)}
-    header h1{font-size:1.6rem}
-    header p{opacity:.95;margin-top:6px}
-    .container{max-width:1100px;margin:18px auto;padding:0 16px}
-    .word-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;justify-content:space-between;min-height:170px;border:2px solid transparent;transition:transform .18s,box-shadow .18s}
-    .card:hover{transform:translateY(-6px)}
-    .card.active{border-color:var(--accent);background:#e9fff0}
-    .main-word-area{cursor:pointer;padding:6px;border-radius:6px}
-    .main-word-area h2{font-size:1.2rem;color:var(--primary);direction:ltr;text-align:left;margin-bottom:6px}
-    .arabic-meaning{font-weight:700;color:var(--text);font-size:1rem}
-    .aux-container{border-top:1px dashed #ddd;padding-top:10px;margin-top:10px;display:flex;flex-direction:column;gap:8px}
-    .aux-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;cursor:pointer;background:transparent;transition:background .12s}
-    .aux-item:hover{background:#fafafa}
-    .aux-label{font-weight:700;color:#6c757d;direction:rtl;margin-left:8px}
-    .aux-word{font-weight:700;direction:ltr}
-    .controls-bar{position:fixed;bottom:12px;left:0;right:0;margin:0 auto;max-width:1100px;background:#222;color:#fff;padding:10px;border-radius:12px;display:flex;gap:12px;align-items:center;justify-content:center;z-index:999}
-    .controls-bar button, .controls-bar select{padding:10px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
-    .controls-bar button#start-all-btn{background:var(--accent);color:#fff}
-    .controls-bar button#stop-reading-btn{background:#c82333;color:#fff}
-    .controls-bar select{background:#fff;color:#222}
-    /* overlay enable audio */
-    #enable-audio-overlay{position:fixed;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.45),rgba(0,0,0,.35));display:flex;align-items:center;justify-content:center;z-index:2000}
-    #enable-audio-overlay .panel{background:#fff;padding:20px;border-radius:12px;text-align:center;max-width:320px;width:90%}
-    #enable-audio-overlay button{background:var(--accent);border:none;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer}
-    #enable-audio-overlay p{margin:12px 0 6px;color:#333}
-    @media(max-width:720px){header h1{font-size:1.3rem}.card{min-height:150px}.controls-bar{flex-direction:column;gap:8px;padding:12px}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Ahmed Mansour | بطاقات الكلمات الإنجليزية</title>
+    <style>
+        /* CSS Reset and Global Styles */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --secondary-color: #28a745; /* Green */
+            --background-color: #f8f9fa; /* Light Gray */
+            --card-background: #ffffff; /* White */
+            --text-color: #343a40; /* Dark Gray */
+            --synonym-color: #ffc107; /* Yellow for Synonyms */
+            --antonym-color: #dc3545; /* Red for Antonyms */
+            --past-color: #17a2b8; /* Cyan for Past Tenses */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 70px;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* Section Title Styling */
+        .section-title {
+            text-align: right;
+            color: var(--primary-color);
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 30px 0 15px;
+            padding-bottom: 5px;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        /* Main Content Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0 40px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Last grid section does not need bottom border */
+        .container > .word-grid:last-child {
+            border-bottom: none;
+            padding-bottom: 20px;
+        }
+
+        /* Card Styling (Kept mostly the same) */
+        .card {
+            background-color: var(--card-background);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px; 
+            border: 2px solid transparent; 
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card.active {
+            border-color: var(--secondary-color);
+            background-color: #e6ffe6; 
+        }
+
+        .main-word-area {
+            cursor: pointer;
+            margin-bottom: 15px;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.1s;
+        }
+
+        .main-word-area:hover {
+            background-color: #f0f0f0;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            direction: ltr; 
+        }
+
+        .card .arabic-meaning {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* Auxiliary Words (Synonyms, Antonyms, Past Tenses) */
+        .aux-container {
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .aux-item {
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.1s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            direction: ltr;
+        }
+        
+        .aux-label {
+             font-weight: 700;
+             font-size: 0.8rem;
+             color: #6c757d;
+             direction: rtl;
+             flex-shrink: 0;
+             margin-left: 10px;
+        }
+
+        .synonym .aux-word { color: var(--synonym-color); }
+        .antonym .aux-word { color: var(--antonym-color); }
+        .past-form .aux-word { color: var(--past-color); }
+
+        .aux-item:hover {
+            background-color: #eee;
+        }
+        
+        .aux-item.active {
+            box-shadow: 0 0 5px var(--secondary-color);
+            background-color: #e6ffe6;
+        }
+
+        /* Controls Bar Styling (Kept the same) */
+        .controls-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--text-color);
+            padding: 10px 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .controls-bar button, .controls-bar select {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            font-weight: 600;
+        }
+
+        .controls-bar button {
+            background-color: var(--secondary-color);
+            color: white;
+            white-space: nowrap;
+        }
+
+        .controls-bar button#stop-reading-btn {
+             background-color: #dc3545;
+        }
+        
+        .controls-bar button:hover {
+            background-color: #218838;
+            transform: scale(1.02);
+        }
+        
+        .controls-bar button#stop-reading-btn:hover {
+            background-color: #c82333;
+        }
+
+        .controls-bar select {
+            background-color: var(--card-background);
+            color: var(--text-color);
+            border: 1px solid #ccc;
+        }
+        
+        .speed-control-group {
+             display: flex;
+             align-items: center;
+             gap: 5px;
+             white-space: nowrap;
+        }
+
+        /* Responsive Adjustments (Kept the same) */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .word-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-bar {
+                flex-wrap: wrap; 
+                padding: 10px 10px;
+                gap: 10px;
+            }
+            
+            .controls-bar button {
+                 flex: 1 1 100%;
+            }
+            
+            .speed-control-group {
+                 flex: 1 1 100%;
+                 justify-content: space-around;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>Mr Ahmed Mansour</h1>
-  <p>مجموعة مفردات الوحدة (1 و 2) التفاعلية — اضغط لتشغيل النطق</p>
-</header>
+    <header>
+        <h1>Mr Ahmed Mansour</h1>
+        <p>مجموعة مفردات الوحدة (1 و 2) التفاعلية</p>
+    </header>
 
-<main class="container">
-  <div id="word-grid" class="word-grid"></div>
-</main>
+    <main class="container">
+        </main>
 
-<div class="controls-bar" role="region" aria-label="controls">
-  <label style="color:#fff;font-weight:700;margin-right:8px">سرعة القراءة:</label>
-  <select id="speed-control" title="سرعة النطق">
-    <option value="0.7">بطيء (0.7x)</option>
-    <option value="1.0" selected>عادي (1.0x)</option>
-    <option value="1.3">سريع (1.3x)</option>
-    <option value="1.5">أسرع (1.5x)</option>
-  </select>
-  <button id="start-all-btn">تشغيل جميع الكلمات ▶️</button>
-  <button id="stop-reading-btn" disabled>إيقاف القراءة ⏹️</button>
-</div>
+    <div class="controls-bar">
+        <div class="speed-control-group">
+            <label for="speed-control" style="color: white; font-weight: 600;">سرعة القراءة:</label>
+            <select id="speed-control" title="التحكم في سرعة النطق">
+                <option value="0.7">بطيء (0.7x)</option>
+                <option value="1.0" selected>عادي (1.0x)</option>
+                <option value="1.3">سريع (1.3x)</option>
+                <option value="1.5">أسرع (1.5x)</option>
+            </select>
+        </div>
 
-<!-- Overlay: user must press once to enable speech on mobile browsers -->
-<div id="enable-audio-overlay" aria-hidden="false">
-  <div class="panel">
-    <h3>تفعيل الصوت</h3>
-    <p>اضغط هنا مرة واحدة لتفعيل النطق على الموبايل (مطلوب من بعض المتصفحات)</p>
-    <button id="enable-audio-btn">تفعيل الصوت</button>
-    <p style="font-size:.85rem;margin-top:8px;color:#666">إذا لم يعمل، جرّب فتح الملف في Google Chrome أو تحديث المتصفح.</p>
-  </div>
-</div>
+        <button id="start-all-btn">تشغيل جميع الكلمات ▶️</button>
+        <button id="stop-reading-btn" disabled>إيقاف القراءة ⏹️</button>
+    </div>
 
-<script>
-/* ----------------------------
-   Data (words + irregular verbs)
-   ---------------------------- */
-const words = [
-  { en: "neat", ar: "منظم / مهندم", syn: "arranged / organized", ant: "messy" },
-  { en: "quiet", ar: "هادئ", syn: "calm", ant: "noisy" },
-  { en: "particular", ar: "معين / خاص", syn: "special / certain", ant: "general / common" },
-  { en: "improve", ar: "يحسن", syn: "develop", ant: "damage" },
-  { en: "understand", ar: "يفهم", syn: "know / realize", ant: "misunderstand" },
-  { en: "auditory learners", ar: "متعلمين بالمؤثرات السمعية" },
-  { en: "kinesthetic learners", ar: "متعلمين عن طريق الأنشطة الحركية والحسية" },
-  { en: "visual learners", ar: "متعلمين بالمؤثرات البصرية" },
-  { en: "hands-on activities", ar: "أنشطة تطبيقية" },
-  { en: "methods / styles", ar: "طرق / وسائل" },
-  { en: "techniques", ar: "تقنيات / أساليب" },
-  { en: "focus", ar: "يركز" },
-  { en: "avoid", ar: "يتجنب" },
-  { en: "schedule", ar: "جدول أو برنامج محدد للمواعيد" },
-  { en: "mind maps", ar: "خرائط ذهنية" },
-  { en: "memorize", ar: "يحفظ / يتذكر (عن ظهر قلب)" },
-  { en: "experiments", ar: "تجارب (علمية)" },
-  { en: "passion", ar: "شغف / اهتمام" },
-  { en: "suit", ar: "يناسب / يلائم" },
-  { en: "learning style", ar: "أسلوب تعلم" },
-  { en: "distraction", ar: "تشتيت الانتباه" },
-  { en: "charts", ar: "مخططات / رسوم بيانية" },
-  { en: "organize", ar: "ينظم" },
-  { en: "explanation", ar: "تفسير / توضيح" },
-  { en: "review", ar: "يراجع / مراجعة" },
-  { en: "challenge", ar: "تحدي" },
-  { en: "sight", ar: "حاسة البصر" },
-  { en: "study space", ar: "مساحة مخصصة للدراسة" },
-  { en: "organized", ar: "منظم / مرتب" },
-  { en: "arrange", ar: "يرتب" },
-  { en: "discuss", ar: "يناقش" },
-  { en: "regularly", ar: "بانتظام" },
-  { en: "models", ar: "نماذج" },
-  { en: "physical", ar: "بدني" },
-  { en: "remember", ar: "يتذكر" },
-  { en: "key", ar: "مفتاح / مدخل" },
-  { en: "folder", ar: "ملف / مجلد" },
-  { en: "success", ar: "نجاح" },
-  { en: "solutions", ar: "حلول" },
-  { en: "individually", ar: "بشكل فردي" },
-  { en: "competition", ar: "منافسة" },
-  { en: "relax", ar: "يسترخ / يستريح" },
-  { en: "research", ar: "بحث / يبحث" },
-  { en: "unforgettable", ar: "لا ينسى" },
-  { en: "revise", ar: "يراجع" },
-  { en: "playground", ar: "ملعب" },
-  { en: "enjoyable", ar: "ممتع" },
-  { en: "experience", ar: "تجربة حياتية / خبرة سابقة" },
-  { en: "stay focused", ar: "يظل على تركيزه" },
-  { en: "solve the problems", ar: "يحل المشكلات" },
-  { en: "say things out loud", ar: "يقول الأشياء بصوت عال" },
-  { en: "take breaks", ar: "يأخذ فترات راحة" },
-  { en: "work individually", ar: "يعمل بطريقة فردية" },
-  { en: "make something better", ar: "يجعل شيئاً ما أفضل" },
-  { en: "get enough sleep", ar: "يحصل على قدر كاف من النوم" },
-  { en: "move around", ar: "يتحرك / يتنقل" },
-  { en: "change over time", ar: "يتغير مع مرور الوقت" },
-  { en: "get better", ar: "يتعافى / يتحسن" },
-  { en: "take notes", ar: "يدون ملاحظات" },
-  { en: "away from", ar: "بعيداً عن" },
-  { en: "turn off", ar: "يفصل / يغلق جهاز" },
-  { en: "related to", ar: "مرتبط بـ" },
-  { en: "revise for...", ar: "يراجع لـ..." },
-  { en: "at the same times", ar: "في نفس الأوقات" },
-  { en: "during the learning experience", ar: "أثناء تجربة التعلم" },
-  { en: "at the beginning", ar: "في البداية" },
-  { en: "step by step", ar: "خطوة بخطوة" },
-  { en: "get ready for", ar: "يستعد لـ" },
-  { en: "in a particular order", ar: "في ترتيب محدد" },
-  { en: "on the internet", ar: "على الإنترنت" },
-  { en: "in a team", ar: "في فريق" },
-  { en: "now", ar: "الآن" },
-  { en: "Look!", ar: "انظر!" },
-  { en: "Listen!", ar: "أنصت!" },
-  { en: "Take care!", ar: "احذر!" },
-  { en: "right now", ar: "الآن" },
-  { en: "Look out! / Watch out!", ar: "احترس!" },
-  { en: "at the moment", ar: "في تلك اللحظة" },
-  { en: "at present", ar: "في الوقت الحاضر" },
-  { en: "do experiments", ar: "يُجري تجارب علمية" },
-  { en: "do hand-on activities", ar: "يقوم بعمل أنشطة تطبيقية" },
-  { en: "have a problem", ar: "لديه مشكلة" },
-  { en: "use an app", ar: "يستخدم تطبيق" },
-  { en: "build models", ar: "يصنع / يبني نماذج" }
-];
+    <script>
+        // --- Data: The complete list of words/phrases organized by section ---
+        
+        const dataSections = [
+            { 
+                title: "القسم الأول: الكلمات الأساسية ومفردات الدروس",
+                words: [
+                    // الكلمات الأساسية
+                    { en: "auditory learners", ar: "متعلمين بالمؤثرات السمعية" },
+                    { en: "kinesthetic learners", ar: "متعلمين عن طريق الأنشطة الحركية والحسية" },
+                    { en: "visual learners", ar: "متعلمين بالمؤثرات البصرية" },
+                    { en: "hands-on activities", ar: "أنشطة تطبيقية" },
+                    { en: "methods / styles", ar: "طرق / وسائل" },
+                    { en: "techniques", ar: "تقنيات / أساليب" },
+                    { en: "focus", ar: "يركز" },
+                    { en: "avoid", ar: "يتجنب" },
+                    { en: "schedule", ar: "جدول أو برنامج محدد للمواعيد" },
+                    { en: "mind maps", ar: "خرائط ذهنية" },
+                    { en: "memorize", ar: "يحفظ / يتذكر (عن ظهر قلب)" },
+                    { en: "experiments", ar: "تجارب (علمية)" },
+                    { en: "passion", ar: "شغف / اهتمام" },
+                    { en: "suit", ar: "يناسب / يلائم" },
+                    { en: "learning style", ar: "أسلوب تعلم" },
+                    { en: "distraction", ar: "تشتيت الانتباه" },
+                    { en: "charts", ar: "مخططات / رسوم بيانية" },
+                    { en: "organize", ar: "ينظم" },
+                    { en: "explanation", ar: "تفسير / توضيح" },
+                    { en: "review", ar: "يراجع / مراجعة" },
+                    { en: "challenge", ar: "تحدي" },
+                    { en: "sight", ar: "حاسة البصر" },
+                    { en: "study space", ar: "مساحة مخصصة للدراسة" },
+                    { en: "organized", ar: "منظم / مرتب" },
+                    { en: "arrange", ar: "يرتب" },
+                    { en: "discuss", ar: "يناقش" },
+                    { en: "regularly", ar: "بانتظام" },
+                    { en: "models", ar: "نماذج" },
+                    { en: "physical", ar: "بدني" },
+                    { en: "remember", ar: "يتذكر" },
+                    { en: "key", ar: "مفتاح / مدخل" },
+                    { en: "folder", ar: "ملف / مجلد" },
+                    { en: "success", ar: "نجاح" },
+                    { en: "solutions", ar: "حلول" },
+                    { en: "individually", ar: "بشكل فردي" },
+                    { en: "competition", ar: "منافسة" },
+                    { en: "relax", ar: "يسترخ / يستريح" },
+                    { en: "research", ar: "بحث / يبحث" },
+                    { en: "unforgettable", ar: "لا ينسى" },
+                    { en: "revise", ar: "يراجع" },
+                    { en: "playground", ar: "ملعب" },
+                    { en: "enjoyable", ar: "ممتع" },
+                    { en: "experience", ar: "تجربة حياتية / خبرة سابقة" },
+                ]
+            },
+            {
+                title: "القسم الثاني: المرادفات والمتضادات",
+                words: [
+                    { en: "neat", ar: "منظم / مهندم", syn: "arranged / organized", ant: "messy" },
+                    { en: "quiet", ar: "هادئ", syn: "calm", ant: "noisy" },
+                    { en: "particular", ar: "معين / خاص", syn: "special / certain", ant: "general / common" },
+                    { en: "improve", ar: "يحسن", syn: "develop", ant: "damage" },
+                    { en: "understand", ar: "يفهم", syn: "know / realize", ant: "misunderstand" },
+                ]
+            },
+            {
+                title: "القسم الثالث: تصريفات الأفعال غير المنتظمة",
+                verbs: [
+                    { present: "understand", past: "understood", pp: "understood" },
+                    { present: "draw", past: "drew", pp: "drawn" },
+                    { present: "do", past: "did", pp: "done" },
+                    { present: "build", past: "built", pp: "built" },
+                    { present: "choose", past: "chose", pp: "chosen" },
+                    { present: "become", past: "became", pp: "become" }
+                ]
+            },
+            {
+                title: "القسم الرابع: تعابير وحروف جر ومتلازمات لفظية",
+                words: [
+                    { en: "stay focused", ar: "يظل على تركيزه" },
+                    { en: "solve the problems", ar: "يحل المشكلات" },
+                    { en: "say things out loud", ar: "يقول الأشياء بصوت عال" },
+                    { en: "take breaks", ar: "يأخذ فترات راحة" },
+                    { en: "work individually", ar: "يعمل بطريقة فردية" },
+                    { en: "make something better", ar: "يجعل شيئاً ما أفضل" },
+                    { en: "get enough sleep", ar: "يحصل على قدر كاف من النوم" },
+                    { en: "move around", ar: "يتحرك / يتنقل" },
+                    { en: "change over time", ar: "يتغير مع مرور الوقت" },
+                    { en: "get better", ar: "يتعافى / يتحسن" },
+                    { en: "take notes", ar: "يدون ملاحظات" },
+                    { en: "away from", ar: "بعيداً عن" },
+                    { en: "turn off", ar: "يفصل / يغلق جهاز" },
+                    { en: "related to", ar: "مرتبط بـ" },
+                    { en: "revise for...", ar: "يراجع لـ..." },
+                    { en: "at the same times", ar: "في نفس الأوقات" },
+                    { en: "during the learning experience", ar: "أثناء تجربة التعلم" },
+                    { en: "at the beginning", ar: "في البداية" },
+                    { en: "step by step", ar: "خطوة بخطوة" },
+                    { en: "get ready for", ar: "يستعد لـ" },
+                    { en: "in a particular order", ar: "في ترتيب محدد" },
+                    { en: "on the internet", ar: "على الإنترنت" },
+                    { en: "in a team", ar: "في فريق" },
+                    { en: "do experiments", ar: "يُجري تجارب علمية" },
+                    { en: "do hand-on activities", ar: "يقوم بعمل أنشطة تطبيقية" },
+                    { en: "have a problem", ar: "لديه مشكلة" },
+                    { en: "use an app", ar: "يستخدم تطبيق" },
+                    { en: "build models", ar: "يصنع / يبني نماذج" },
+                ]
+            },
+            {
+                title: "القسم الخامس: الكلمات الدالة (المضارع المستمر)",
+                words: [
+                    { en: "now", ar: "الآن" },
+                    { en: "Look!", ar: "انظر!" },
+                    { en: "Listen!", ar: "أنصت!" },
+                    { en: "Take care!", ar: "احذر!" },
+                    { en: "right now", ar: "الآن" },
+                    { en: "Look out! / Watch out!", ar: "احترس!" },
+                    { en: "at the moment", ar: "في تلك اللحظة" },
+                    { en: "at present", ar: "في الوقت الحاضر" },
+                ]
+            }
+        ];
+        
+        // --- Global State and Utility Functions ---
+        
+        let isReading = false;
+        let allWordsForReading = []; // A flattened list for continuous reading (main word, syn, ant)
+        let currentWordIndex = 0;
+        let synth = window.speechSynthesis;
+        let utterance = null;
+        let wordElements = [];
+        
+        const mainContainer = document.querySelector('.container');
+        const speedControl = document.getElementById('speed-control');
+        const startAllBtn = document.getElementById('start-all-btn');
+        const stopReadingBtn = document.getElementById('stop-reading-btn');
 
-const irregularVerbs = [
-  { present: "understand", past: "understood", pp: "understood" },
-  { present: "draw", past: "drew", pp: "drawn" },
-  { present: "do", past: "did", pp: "done" },
-  { present: "build", past: "built", pp: "built" },
-  { present: "choose", past: "chose", pp: "chosen" },
-  { present: "become", past: "became", pp: "become" }
-];
+        /**
+         * Finds the irregular verb object based on its present form.
+         */
+        function getIrregularVerb(presentForm) {
+            // Only used for the verbs in Section 3 and the word 'understand'
+            if (presentForm === "understand") return { present: "understand", past: "understood", pp: "understood" };
+            if (presentForm === "draw") return { present: "draw", past: "drew", pp: "drawn" };
+            if (presentForm === "do") return { present: "do", past: "did", pp: "done" };
+            if (presentForm === "build") return { present: "build", past: "built", pp: "built" };
+            if (presentForm === "choose") return { present: "choose", past: "chose", pp: "chosen" };
+            if (presentForm === "become") return { present: "become", past: "became", pp: "become" };
+            return null;
+        }
 
-/* ----------------------------
-   App state & DOM refs
-   ---------------------------- */
-let synth = window.speechSynthesis;
-let selectedVoice = null;
-let isReading = false;
-let currentWordIndex = 0;
-let utterance = null;
-let wordElements = [];
+        /**
+         * Builds the auxiliary words section (Synonyms, Antonyms, Past Forms).
+         */
+        function buildAuxiliaryHTML(wordData, isVerbSection = false) {
+            let html = '<div class="aux-container">';
+            let verb = isVerbSection ? wordData : getIrregularVerb(wordData.en);
 
-const wordGrid = document.getElementById('word-grid');
-const startAllBtn = document.getElementById('start-all-btn');
-const stopReadingBtn = document.getElementById('stop-reading-btn');
-const speedControl = document.getElementById('speed-control');
-const enableOverlay = document.getElementById('enable-audio-overlay');
-const enableBtn = document.getElementById('enable-audio-btn');
+            // 1. Synonyms
+            if (wordData.syn) {
+                html += `
+                    <div class="aux-item synonym" data-speak="${wordData.syn}" data-type="synonym">
+                        <span class="aux-word">${wordData.syn}</span>
+                        <span class="aux-label">مرادف</span>
+                    </div>
+                `;
+            }
 
-/* ----------------------------
-   Helpers
-   ---------------------------- */
-function getIrregular(present){ return irregularVerbs.find(v=>v.present===present) || null; }
+            // 2. Antonyms
+            if (wordData.ant) {
+                html += `
+                    <div class="aux-item antonym" data-speak="${wordData.ant}" data-type="antonym">
+                        <span class="aux-word">${wordData.ant}</span>
+                        <span class="aux-label">مضاد</span>
+                    </div>
+                `;
+            }
 
-function buildAuxHTML(word){
-  let html = '<div class="aux-container">';
-  const v = getIrregular(word.en);
-  if(word.syn) html += `<div class="aux-item synonym" data-speak="${escapeAttr(word.syn)}"><span class="aux-word">${word.syn}</span><span class="aux-label">مرادف</span></div>`;
-  if(word.ant) html += `<div class="aux-item antonym" data-speak="${escapeAttr(word.ant)}"><span class="aux-word">${word.ant}</span><span class="aux-label">مضاد</span></div>`;
-  if(v){
-    html += `<div class="aux-item past-form" data-speak="${escapeAttr(v.past)}"><span class="aux-word">${v.past}</span><span class="aux-label">ماضي</span></div>`;
-    html += `<div class="aux-item past-form" data-speak="${escapeAttr(v.pp)}"><span class="aux-word">${v.pp}</span><span class="aux-label">ت. ثالث</span></div>`;
-  }
-  html += '</div>';
-  return html;
-}
-function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
+            // 3. Past Forms (for Irregular Verbs)
+            if (verb && verb.past && verb.pp) {
+                 html += `
+                    <div class="aux-item past-form" data-speak="${verb.past}" data-type="past">
+                        <span class="aux-word">${verb.past}</span>
+                        <span class="aux-label">ماضي</span>
+                    </div>
+                    <div class="aux-item past-form" data-speak="${verb.pp}" data-type="pp">
+                        <span class="aux-word">${verb.pp}</span>
+                        <span class="aux-label">ت. ثالث</span>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            return html;
+        }
 
-/* render cards */
-function renderCards(){
-  wordGrid.innerHTML = '';
-  wordElements = [];
-  words.forEach((w,i)=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.index = i;
-    card.innerHTML = `
-      <div class="main-word-area" data-speak="${escapeAttr(w.en)}">
-        <h2>${w.en}</h2>
-        <p class="arabic-meaning">${w.ar}</p>
-      </div>
-      ${buildAuxHTML(w)}
-    `;
-    wordElements.push(card);
-    wordGrid.appendChild(card);
-  });
 
-  // attach listeners
-  document.querySelectorAll('.main-word-area, .aux-item').forEach(el=>{
-    el.addEventListener('click', (e)=>{
-      if(isReading) stopReading(); // stop continuous reading
-      const text = el.dataset.speak;
-      const card = el.closest('.card');
-      speakWord(text, card, el);
-      e.stopPropagation();
-    });
-  });
-}
+        /**
+         * Renders all sections and words to the DOM.
+         */
+        function renderWordCards() {
+            mainContainer.innerHTML = ''; 
+            wordElements = []; 
+            allWordsForReading = []; // Reset the flattened list
 
-/* choose an English voice if possible */
-function chooseVoice(){
-  const voices = synth.getVoices();
-  // prefer en voices
-  let v = voices.find(voice => voice.lang && (voice.lang.startsWith('en') || voice.lang.toLowerCase().includes('english')));
-  if(!v) v = voices[0] || null;
-  selectedVoice = v;
-  console.log('voices loaded:', voices.map(x=>x.lang + ' / ' + x.name).slice(0,6));
-  console.log('selected voice:', selectedVoice ? selectedVoice.name + ' (' + selectedVoice.lang + ')' : 'none');
-}
+            dataSections.forEach((section, sectionIndex) => {
+                // Add the section title
+                const titleElement = document.createElement('h2');
+                titleElement.className = 'section-title';
+                titleElement.textContent = section.title;
+                mainContainer.appendChild(titleElement);
 
-/* speak a single text, highlight elements while speaking */
-function speakWord(text, card, el, callback){
-  try {
-    if(!text) return;
-    if(synth.speaking) synth.cancel();
-    // clear classes
-    document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
-    document.querySelectorAll('.main-word-area.active, .aux-item.active').forEach(x=>x.classList.remove('active'));
-    // highlight
-    if(card){ card.classList.add('active'); card.scrollIntoView({behavior:'smooth',block:'center'}); }
-    if(el) el.classList.add('active');
+                // Create the grid container for the section
+                const grid = document.createElement('div');
+                grid.className = 'word-grid';
+                
+                // Determine the list of items to iterate over
+                const items = section.words || section.verbs;
+                const isVerbSection = !!section.verbs;
 
-    utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = parseFloat(speedControl.value||1.0);
-    if(selectedVoice) utterance.voice = selectedVoice;
-    // safety: small volume default (1)
-    utterance.volume = 1.0;
+                items.forEach((item, itemIndex) => {
+                    const word = item.en || item.present; 
+                    const ar = item.ar || '';
+                    
+                    // --- Build Flattened List for Continuous Reading ---
+                    const readingItem = { 
+                        main: word,
+                        syn: item.syn,
+                        ant: item.ant,
+                        cardIndex: allWordsForReading.length // Index of the main word
+                    };
+                    allWordsForReading.push(readingItem);
 
-    utterance.onend = ()=>{
-      if(card) card.classList.remove('active');
-      if(el) el.classList.remove('active');
-      if(callback) callback();
-    };
-    utterance.onerror = (ev)=>{
-      console.error('synthesis error', ev);
-      if(card) card.classList.remove('active');
-      if(el) el.classList.remove('active');
-      if(callback) callback();
-      alert('حدث خطأ أثناء النطق. تأكد من إعدادات المتصفح أو جرّب Google Chrome.');
-    };
-    synth.speak(utterance);
-  } catch(err){
-    console.error('speakWord exception', err);
-    alert('خطأ داخلي: ' + (err.message||err));
-  }
-}
+                    // Create the card element
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.setAttribute('data-read-index', allWordsForReading.length - 1);
+                    card.setAttribute('tabindex', '0'); 
+                    
+                    // Build the card content
+                    card.innerHTML = `
+                        <div class="main-word-area" data-speak="${word}" data-type="main">
+                            <h2>${word}</h2>
+                            <p class="arabic-meaning">${ar}</p>
+                        </div>
+                        ${buildAuxiliaryHTML(item, isVerbSection)}
+                    `;
 
-/* Continuous reading functions */
-function startReading(){
-  if(isReading) return;
-  isReading = true;
-  currentWordIndex = 0;
-  updateControls(true);
-  readNext();
-}
-function readNext(){
-  if(!isReading || currentWordIndex >= words.length){ stopReading(); return; }
-  const w = words[currentWordIndex];
-  const card = wordElements[currentWordIndex];
-  const main = card.querySelector('.main-word-area');
-  speakWord(w.en, card, main, ()=>{
-    currentWordIndex++;
-    // small delay between words so user can notice highlight
-    setTimeout(()=>{ readNext(); }, 200);
-  });
-}
-function stopReading(){
-  if(synth.speaking) synth.cancel();
-  isReading = false;
-  currentWordIndex = 0;
-  updateControls(false);
-  document.querySelectorAll('.card.active, .main-word-area.active, .aux-item.active').forEach(e=>e.classList.remove('active'));
-}
-function updateControls(reading){
-  startAllBtn.disabled = reading;
-  stopReadingBtn.disabled = !reading;
-}
+                    wordElements.push(card);
+                    grid.appendChild(card);
+                });
+                
+                mainContainer.appendChild(grid);
+            });
+            
+            // --- Attach Click Listeners ---
+            document.querySelectorAll('.main-word-area, .aux-item').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    if (isReading) stopContinuousReading();
+                    
+                    const textToSpeak = element.getAttribute('data-speak');
+                    const cardContainer = element.closest('.card');
+                    
+                    speakWord(textToSpeak, cardContainer, element);
+                    e.stopPropagation(); 
+                });
+            });
+        }
+        
+        // --- Speech and Control Functions ---
 
-/* ----------------------------
-   Unlock & init (mobile-safe)
-   ---------------------------- */
-function unlockSpeechOnce(){
-  // Attempt to speak a tiny silent utterance to unlock the engine
-  try {
-    const u = new SpeechSynthesisUtterance(' ');
-    // choose small volume and language (some browsers ignore silent)
-    u.volume = 0;
-    if(selectedVoice) u.voice = selectedVoice;
-    synth.speak(u);
-  } catch(e){
-    console.warn('unlock attempt failed', e);
-  }
-}
+        /**
+         * Clears all highlighting from the cards.
+         */
+        function clearHighlights() {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.main-word-area.active, .aux-item.active').forEach(e => e.classList.remove('active'));
+        }
 
-/* Event wiring & startup */
-document.addEventListener('DOMContentLoaded', ()=>{
+        function speakWord(text, cardContainer, specificElement = null, onEndCallback = null) {
+            if (synth.speaking && utterance) {
+                synth.cancel();
+            }
 
-  // 1) Render cards
-  renderCards();
+            // Only clear all highlights if this is a manual click, otherwise trust the sequence
+            if (!onEndCallback) {
+                clearHighlights();
+            }
 
-  // 2) Prepare voices: voices may load asynchronously
-  if(!('speechSynthesis' in window)){
-    alert('متصفحك لا يدعم خاصية النطق الصوتي (SpeechSynthesis). جرّب Google Chrome أو متصفح أحدث.');
-    // Still allow UI but no TTS
-    enableOverlay.style.display = 'none';
-  } else {
-    // load voices; chooseVoice when available
-    chooseVoice();
-    window.speechSynthesis.onvoiceschanged = chooseVoice;
-  }
+            if (cardContainer) {
+                cardContainer.classList.add('active');
+                cardContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (specificElement) {
+                specificElement.classList.add('active');
+            }
 
-  // 3) Attach control listeners
-  document.getElementById('start-all-btn').addEventListener('click', ()=>{
-    // If overlay still visible (not unlocked), encourage user to enable it first
-    if(enableOverlay && enableOverlay.style.display !== 'none'){
-      // show overlay instructions: user must press enable
-      enableOverlay.style.display = 'flex';
-      return;
-    }
-    startReading();
-  });
-  document.getElementById('stop-reading-btn').addEventListener('click', stopReading);
-  speedControl.addEventListener('change', ()=>{
-    // if speed changed while reading, stop for safety
-    if(isReading || synth.speaking) stopReading();
-  });
+            utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; 
+            utterance.rate = parseFloat(speedControl.value);
 
-  // 4) Overlay button: enable audio explicitly
-  enableBtn.addEventListener('click', ()=>{
-    // hide overlay only after attempting unlock
-    enableBtn.disabled = true;
-    enableBtn.textContent = 'جاري التفعيل...';
-    // choose voice again
-    chooseVoice();
-    // attempt to unlock
-    try{
-      // Speak a very short utterance: use a single space (volume 0) & then a short audible 'ok' at low volume
-      // Some browsers ignore fully silent utterances; use a tiny audible beep-like syllable at very low volume if allowed.
-      // First silent attempt:
-      const uSilent = new SpeechSynthesisUtterance(' ');
-      uSilent.volume = 0;
-      if(selectedVoice) uSilent.voice = selectedVoice;
-      uSilent.onend = ()=>{
-        // second short audible minimal utterance (very low volume)
-        const u = new SpeechSynthesisUtterance('ready');
-        u.rate = 1.0;
-        u.volume = 0.01; // extremely low but may be enough to unlock
-        if(selectedVoice) u.voice = selectedVoice;
-        u.onend = ()=>{
-          enableOverlay.style.display = 'none';
-          enableOverlay.setAttribute('aria-hidden','true');
-          enableBtn.disabled = false;
-          enableBtn.textContent = 'تفعيل الصوت';
-          // mark unlocked (also attach a touchstart fallback)
-          window.__TTS_UNLOCKED = true;
-          console.log('TTS unlocked (button)');
-        };
-        u.onerror = (e)=>{
-          console.warn('audible unlock failed', e);
-          // still hide overlay, but inform user
-          enableOverlay.style.display = 'none';
-          enableOverlay.setAttribute('aria-hidden','true');
-          alert('تم محاولة تفعيل الصوت — إن لم يعمل، جرّب فتح الصفحة في Google Chrome أو اضغط على زر التشغيل يدوياً.');
-        };
-        synth.speak(u);
-      };
-      uSilent.onerror = (e)=>{
-        console.warn('silent unlock failed', e);
-        // attempt audible short utterance regardless
-        const u2 = new SpeechSynthesisUtterance('ready');
-        u2.volume = 0.01;
-        if(selectedVoice) u2.voice = selectedVoice;
-        u2.onend = ()=>{ enableOverlay.style.display='none'; window.__TTS_UNLOCKED = true; };
-        synth.speak(u2);
-      };
-      synth.speak(uSilent);
-    } catch (err){
-      console.error('unlock exception', err);
-      enableOverlay.style.display = 'none';
-      window.__TTS_UNLOCKED = true;
-    }
-  });
+            utterance.onend = () => {
+                // Only remove the specific element highlight immediately
+                if (specificElement) specificElement.classList.remove('active');
 
-  // 5) Also add touchstart listener as fallback for quick unlocking
-  document.addEventListener('touchstart', function onFirstTouch(){
-    if(window.__TTS_UNLOCKED) return;
-    try {
-      chooseVoice();
-      const u = new SpeechSynthesisUtterance(' ');
-      u.volume = 0;
-      if(selectedVoice) u.voice = selectedVoice;
-      synth.speak(u);
-      window.__TTS_UNLOCKED = true;
-      console.log('TTS unlocked (touchstart)');
-    } catch(e){
-      console.warn('touchstart unlock failed', e);
-    }
-    document.removeEventListener('touchstart', onFirstTouch);
-  }, {passive:true});
+                if (onEndCallback) {
+                    onEndCallback(); 
+                } else {
+                    // Manual click cleanup
+                    if (cardContainer) cardContainer.classList.remove('active');
+                }
+            };
+            
+            utterance.onerror = (event) => {
+                console.error('Speech synthesis error:', event.error);
+                if (onEndCallback) {
+                    onEndCallback();
+                }
+            };
 
-}); // DOMContentLoaded end
+            synth.speak(utterance);
+        }
 
-// optional: stop speech when leaving page
-window.addEventListener('beforeunload', ()=>{
-  try{ if(synth && synth.speaking) synth.cancel(); } catch(e){}
-});
-</script>
+        // --- Continuous Reading Logic (Updated to include Synonyms/Antonyms) ---
 
+        /**
+         * Starts the continuous reading of all MAIN words, followed by their Synonyms and Antonyms.
+         */
+        function startContinuousReading() {
+            if (isReading) return;
+
+            isReading = true;
+            currentWordIndex = 0;
+            updateControls(true);
+            readNextItem();
+        }
+
+        /**
+         * The main recursive function to read the next word/synonym/antonym.
+         */
+        function readNextItem() {
+            if (!isReading || currentWordIndex >= allWordsForReading.length) {
+                stopContinuousReading();
+                return;
+            }
+
+            const itemData = allWordsForReading[currentWordIndex];
+            const card = document.querySelector(`.card[data-read-index="${currentWordIndex}"]`);
+
+            if (!card) {
+                // Should not happen, but as a safety net
+                currentWordIndex++;
+                readNextItem();
+                return;
+            }
+
+            // Define the sequence of words to read for this item: [main, synonym, antonym]
+            const sequence = [
+                { text: itemData.main, type: 'main' }
+            ];
+            if (itemData.syn) sequence.push({ text: itemData.syn, type: 'synonym' });
+            if (itemData.ant) sequence.push({ text: itemData.ant, type: 'antonym' });
+            
+            // Start the sequence for this card
+            readSequence(card, sequence, 0);
+        }
+
+        /**
+         * Reads the sequence (main word, syn, ant) for a single card.
+         */
+        function readSequence(card, sequence, seqIndex) {
+            if (!isReading) {
+                 clearHighlights();
+                 return;
+            }
+
+            if (seqIndex >= sequence.length) {
+                // Sequence finished for this card. Move to the next word item.
+                currentWordIndex++;
+                readNextItem();
+                return;
+            }
+
+            const current = sequence[seqIndex];
+            // Select the specific DOM element to highlight based on data-type
+            const specificElement = card.querySelector(`[data-type="${current.type}"]`);
+
+            speakWord(current.text, card, specificElement, () => {
+                // Word finished speaking, move to the next in the sequence
+                readSequence(card, sequence, seqIndex + 1);
+            });
+        }
+
+        function stopContinuousReading() {
+            if (synth.speaking && utterance) {
+                synth.cancel();
+            }
+            isReading = false;
+            currentWordIndex = 0;
+            updateControls(false);
+            clearHighlights();
+        }
+        
+        function updateControls(reading) {
+            startAllBtn.disabled = reading;
+            stopReadingBtn.disabled = !reading;
+        }
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', renderWordCards);
+        startAllBtn.addEventListener('click', startContinuousReading);
+        stopReadingBtn.addEventListener('click', stopContinuousReading);
+        
+        speedControl.addEventListener('change', () => {
+             if (isReading || synth.speaking) {
+                 stopContinuousReading();
+             }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (synth.speaking) {
+                synth.cancel();
+            }
+        });
+        
+    </script>
+
+</body>
+</html>
 </body>
 </html>
