@@ -144,6 +144,31 @@
             gap: 8px;
         }
 
+        /* New: Separate container for verbs styling */
+        .verb-forms-container {
+            border-top: 1px solid var(--past-color); 
+            margin-top: 10px;
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background-color: #f0f8ff; /* Light blue background for verbs */
+            border-radius: 0 0 var(--radius) var(--radius);
+            margin: -20px; 
+            padding: 10px 20px 20px 20px;
+            margin-top: 15px;
+            border-top: none; 
+        }
+        
+        .verb-forms-container .aux-item {
+             background-color: transparent !important; /* Override hover/active on individual items */
+        }
+        
+        .card:hover .verb-forms-container .aux-item:hover {
+             background-color: #e0f0ff !important;
+        }
+
+
         .aux-item {
             cursor: pointer;
             font-size: 0.95rem;
@@ -178,7 +203,7 @@
             box-shadow: 0 0 5px var(--secondary-color);
             background-color: #e6ffe6;
         }
-
+        
         /* Controls Bar Styling (Kept the same) */
         .controls-bar {
             position: fixed;
@@ -268,7 +293,7 @@
 
     <header>
         <h1>Mr Ahmed Mansour</h1>
-        <p>مجموعة مفردات الوحدة (1 و 2) التفاعلية</p>
+        <p>مجموعة مفردات الوحدات التفاعلية</p>
     </header>
 
     <main class="container">
@@ -294,9 +319,9 @@
         
         const dataSections = [
             { 
-                title: "القسم الأول: الكلمات الأساسية ومفردات الدروس",
+                title: "القسم الأول: الكلمات الأساسية (Key Vocabulary)",
                 words: [
-                    // الكلمات الأساسية
+                    // Unit 1 & 2 - Lesson 1 & 2
                     { en: "auditory learners", ar: "متعلمين بالمؤثرات السمعية" },
                     { en: "kinesthetic learners", ar: "متعلمين عن طريق الأنشطة الحركية والحسية" },
                     { en: "visual learners", ar: "متعلمين بالمؤثرات البصرية" },
@@ -319,9 +344,11 @@
                     { en: "review", ar: "يراجع / مراجعة" },
                     { en: "challenge", ar: "تحدي" },
                     { en: "sight", ar: "حاسة البصر" },
+                    { en: "neat", ar: "منظم / مهندم" }, 
                     { en: "study space", ar: "مساحة مخصصة للدراسة" },
                     { en: "organized", ar: "منظم / مرتب" },
                     { en: "arrange", ar: "يرتب" },
+                    { en: "quiet", ar: "هادئ" }, 
                     { en: "discuss", ar: "يناقش" },
                     { en: "regularly", ar: "بانتظام" },
                     { en: "models", ar: "نماذج" },
@@ -340,32 +367,108 @@
                     { en: "playground", ar: "ملعب" },
                     { en: "enjoyable", ar: "ممتع" },
                     { en: "experience", ar: "تجربة حياتية / خبرة سابقة" },
+                    { en: "journey", ar: "رحلة" },
+                    { en: "touch", ar: "يلمس" },
+                    { en: "expression", ar: "تعبير" },
+                    { en: "real life", ar: "الحياة الواقعية" },
+                    { en: "loud", ar: "عال الصوت" },
+                    { en: "topics", ar: "موضوعات" },
+                    // Unit 2 - Lesson 3 (New Additions)
+                    { en: "together", ar: "معاً / سوياً" },
+                    { en: "groups", ar: "مجموعات" },
+                    { en: "powerful", ar: "قوي" },
+                    { en: "freely", ar: "بحرية" },
+                    { en: "thinkers", ar: "مفكرون" },
+                    { en: "teamwork", ar: "عمل جماعي" },
+                    { en: "life skills", ar: "مهارات حياتية" },
+                    { en: "modern", ar: "حديث" },
+                    { en: "explain", ar: "يشرح" },
+                    { en: "spidergram", ar: "شكل توضيحي عنكبوتي" },
+                    { en: "computer programs", ar: "برامج الحاسب" },
+                    { en: "diagram", ar: "رسم توضيحي" },
+                    { en: "supporting details", ar: "تفاصيل داعمة" },
+                    { en: "media", ar: "الإعلام / وسائل الإعلام" },
+                    { en: "create", ar: "يبتكر / يُبدع" },
+                    { en: "likely", ar: "من المحتمل" },
+                    { en: "benefits", ar: "فوائد" },
+                    { en: "opinions", ar: "آراء" },
+                    { en: "express", ar: "يعبر" },
+                    { en: "leadership", ar: "القيادة" },
+                    { en: "confident", ar: "واثق" },
+                    { en: "communicate", ar: "يتواصل" },
+                    { en: "cooperation", ar: "التعاون" },
+                    { en: "creative", ar: "مبدع" },
+                    { en: "experiences", ar: "تجارب حياتية" },
+                    // Unit 2 - Lesson 5 & 6 (New Additions)
+                    { en: "improve", ar: "يحسن" },
+                    { en: "practice", ar: "يتدرب / تدريب" },
+                    { en: "record", ar: "يسجل" },
+                    { en: "communication", ar: "تواصل" },
+                    { en: "remind", ar: "يُذكر (شخص)" },
+                    { en: "discover", ar: "يكتشف" },
+                    { en: "reflect", ar: "يعكس" },
+                    { en: "journal", ar: "صحيفة / مجلة" },
+                    { en: "diagrams", ar: "أشكال توضيحية" },
+                    { en: "mistakes", ar: "أخطاء" },
+                    { en: "clearly", ar: "بوضوح" },
+                    { en: "include", ar: "يشمل / يتضمن" },
+                    { en: "indicate", ar: "يدل على / يشير إلى" },
+                    { en: "board", ar: "سبورة / لوحة" },
+                    { en: "pronunciation", ar: "نطق (صوت)" },
+                    { en: "voice", ar: "صوت (بشري)" },
+                    { en: "proud", ar: "فخور" },
+                    { en: "plan", ar: "يخطط" },
+                    { en: "starter", ar: "بداية" },
+                    { en: "list", ar: "يسجل في قائمة" },
+                    { en: "until", ar: "حتى / لغاية" },
+                    { en: "reach", ar: "يصل" },
+                    { en: "at least", ar: "على الأقل" },
+                    { en: "advice", ar: "نصيحة" },
                 ]
             },
             {
-                title: "القسم الثاني: المرادفات والمتضادات",
+                title: "القسم الثاني: المرادفات والمتضادات (Synonyms and Antonyms)",
                 words: [
-                    { en: "neat", ar: "منظم / مهندم", syn: "arranged / organized", ant: "messy" },
+                    // Unit 1 & 2 - Synonyms
+                    { en: "understand", ar: "يفهم", syn: "know / realize", ant: "misunderstand" },
+                    { en: "neat", ar: "مرتب / منظم", syn: "arranged / organized", ant: "messy" },
                     { en: "quiet", ar: "هادئ", syn: "calm", ant: "noisy" },
                     { en: "particular", ar: "معين / خاص", syn: "special / certain", ant: "general / common" },
                     { en: "improve", ar: "يحسن", syn: "develop", ant: "damage" },
-                    { en: "understand", ar: "يفهم", syn: "know / realize", ant: "misunderstand" },
+                    { en: "confident", ar: "واثق", syn: "certain / positive", ant: "shy / unsure" },
+                    { en: "reason", ar: "سبب", syn: "cause", ant: "result" },
+                    { en: "succeed", ar: "ينجح", syn: "pass", ant: "fail" },
                 ]
             },
             {
-                title: "القسم الثالث: تصريفات الأفعال غير المنتظمة",
+                title: "القسم الثالث: تصريفات الأفعال غير المنتظمة (Irregular Verbs)",
                 verbs: [
-                    { present: "understand", past: "understood", pp: "understood" },
-                    { present: "draw", past: "drew", pp: "drawn" },
-                    { present: "do", past: "did", pp: "done" },
-                    { present: "build", past: "built", pp: "built" },
-                    { present: "choose", past: "chose", pp: "chosen" },
-                    { present: "become", past: "became", pp: "become" }
+                    // Unit 1 & 2 - Verbs
+                    { present: "understand", past: "understood", pp: "understood", ar: "يفهم" },
+                    { present: "draw", past: "drew", pp: "drawn", ar: "يرسم" },
+                    { present: "do", past: "did", pp: "done", ar: "يفعل" },
+                    { present: "build", past: "built", pp: "built", ar: "يبني" },
+                    { present: "choose", past: "chose", pp: "chosen", ar: "يختار" },
+                    { present: "become", past: "became", pp: "become", ar: "يصبح" },
+                    { present: "know", past: "knew", pp: "known", ar: "يعرف" },
+                    { present: "teach", past: "taught", pp: "taught", ar: "يدرس" },
+                    { present: "give", past: "gave", pp: "given", ar: "يعطي" },
+                    { present: "speak", past: "spoke", pp: "spoken", ar: "يتحدث" },
+                    // Unit 2 - Lesson 5 & 6 (New Additions)
+                    { present: "set", past: "set", pp: "set", ar: "يضبط / يحدد" },
+                    { present: "take", past: "took", pp: "taken", ar: "يأخذ" },
                 ]
             },
             {
-                title: "القسم الرابع: تعابير وحروف جر ومتلازمات لفظية",
+                title: "القسم الرابع: تعابير ومتلازمات لفظية وحروف جر (Collocations, Expressions & Prepositions)",
                 words: [
+                    // Collocations
+                    { en: "do experiments", ar: "يُجري تجارب علمية" },
+                    { en: "do hand-on activities", ar: "يقوم بعمل أنشطة تطبيقية" },
+                    { en: "have a problem", ar: "لديه مشكلة" },
+                    { en: "use an app", ar: "يستخدم تطبيق" },
+                    { en: "build models", ar: "يصنع / يبني نماذج" },
+                    // Expressions (Merged)
                     { en: "stay focused", ar: "يظل على تركيزه" },
                     { en: "solve the problems", ar: "يحل المشكلات" },
                     { en: "say things out loud", ar: "يقول الأشياء بصوت عال" },
@@ -377,6 +480,20 @@
                     { en: "change over time", ar: "يتغير مع مرور الوقت" },
                     { en: "get better", ar: "يتعافى / يتحسن" },
                     { en: "take notes", ar: "يدون ملاحظات" },
+                    { en: "learn in groups", ar: "يتعلم في مجموعات" },
+                    { en: "give reason", ar: "يعطي سبب / مبرر" },
+                    { en: "look like", ar: "يشبه" },
+                    { en: "share opinions", ar: "يشارك الآراء" },
+                    { en: "find solutions to", ar: "يجد حلولاً لـ" },
+                    { en: "express themselves freely", ar: "يعبرون عن أنفسهم بحرية" },
+                    { en: "feel more confident", ar: "يشعر أنه أكثر ثقة" },
+                    { en: "make new friends", ar: "يكون صداقات جديدة" },
+                    { en: "find information", ar: "يجد معلومات" },
+                    { en: "make group learning enjoyable", ar: "يجعل التعلم الجماعي أكثر متعة" },
+                    { en: "create powerful learning experiences", ar: "يوفر خبرات تعلم فعالة" },
+                    { en: "make videos", ar: "يُعد / يصور فيديوهات" },
+                    { en: "get ready", ar: "يستعد" },
+                    // Prepositions (Merged)
                     { en: "away from", ar: "بعيداً عن" },
                     { en: "turn off", ar: "يفصل / يغلق جهاز" },
                     { en: "related to", ar: "مرتبط بـ" },
@@ -389,15 +506,22 @@
                     { en: "in a particular order", ar: "في ترتيب محدد" },
                     { en: "on the internet", ar: "على الإنترنت" },
                     { en: "in a team", ar: "في فريق" },
-                    { en: "do experiments", ar: "يُجري تجارب علمية" },
-                    { en: "do hand-on activities", ar: "يقوم بعمل أنشطة تطبيقية" },
-                    { en: "have a problem", ar: "لديه مشكلة" },
-                    { en: "use an app", ar: "يستخدم تطبيق" },
-                    { en: "build models", ar: "يصنع / يبني نماذج" },
+                    { en: "care for", ar: "يهتم بـ" },
+                    { en: "believe in", ar: "يؤمن بـ" },
+                    { en: "communicate with", ar: "يتواصل مع" },
+                    { en: "think about", ar: "يفكر في" },
+                    { en: "in front of", ar: "أمام" },
+                    { en: "spend much time with", ar: "يقضي وقتاً كثيراً مع" },
+                    { en: "at the same time", ar: "في نفس الوقت" },
+                    { en: "in English", ar: "باللغة الإنجليزية" },
+                    { en: "start with", ar: "يبدأ بـ" },
+                    { en: "at the front", ar: "في الأمام / في المقدمة" },
+                    { en: "at least", ar: "على الأقل" },
+                    { en: "want to", ar: "يريد أن" },
                 ]
             },
             {
-                title: "القسم الخامس: الكلمات الدالة (المضارع المستمر)",
+                title: "القسم الخامس: الكلمات الدالة (Key Words for Present Continuous)",
                 words: [
                     { en: "now", ar: "الآن" },
                     { en: "Look!", ar: "انظر!" },
@@ -426,16 +550,12 @@
         const stopReadingBtn = document.getElementById('stop-reading-btn');
 
         /**
-         * Finds the irregular verb object based on its present form.
+         * Finds the irregular verb object based on its present form. (Simplified - mainly for logic consistency)
          */
-        function getIrregularVerb(presentForm) {
-            // Only used for the verbs in Section 3 and the word 'understand'
-            if (presentForm === "understand") return { present: "understand", past: "understood", pp: "understood" };
-            if (presentForm === "draw") return { present: "draw", past: "drew", pp: "drawn" };
-            if (presentForm === "do") return { present: "do", past: "did", pp: "done" };
-            if (presentForm === "build") return { present: "build", past: "built", pp: "built" };
-            if (presentForm === "choose") return { present: "choose", past: "chose", pp: "chosen" };
-            if (presentForm === "become") return { present: "become", past: "became", pp: "become" };
+        function getIrregularVerb(item) {
+            if (item.present && item.past && item.pp) {
+                return item;
+            }
             return null;
         }
 
@@ -443,44 +563,51 @@
          * Builds the auxiliary words section (Synonyms, Antonyms, Past Forms).
          */
         function buildAuxiliaryHTML(wordData, isVerbSection = false) {
-            let html = '<div class="aux-container">';
-            let verb = isVerbSection ? wordData : getIrregularVerb(wordData.en);
-
-            // 1. Synonyms
-            if (wordData.syn) {
-                html += `
-                    <div class="aux-item synonym" data-speak="${wordData.syn}" data-type="synonym">
-                        <span class="aux-word">${wordData.syn}</span>
-                        <span class="aux-label">مرادف</span>
-                    </div>
-                `;
+            let html = '';
+            
+            // --- 1. Synonyms and Antonyms (Always appear directly under main word if they exist) ---
+            if (wordData.syn || wordData.ant) {
+                 html += '<div class="aux-container">';
+                 if (wordData.syn) {
+                     html += `
+                         <div class="aux-item synonym" data-speak="${wordData.syn}" data-type="synonym">
+                             <span class="aux-word">${wordData.syn}</span>
+                             <span class="aux-label">مرادف</span>
+                         </div>
+                     `;
+                 }
+ 
+                 if (wordData.ant) {
+                     html += `
+                         <div class="aux-item antonym" data-speak="${wordData.ant}" data-type="antonym">
+                             <span class="aux-word">${wordData.ant}</span>
+                             <span class="aux-label">مضاد</span>
+                         </div>
+                     `;
+                 }
+                 html += '</div>';
             }
 
-            // 2. Antonyms
-            if (wordData.ant) {
-                html += `
-                    <div class="aux-item antonym" data-speak="${wordData.ant}" data-type="antonym">
-                        <span class="aux-word">${wordData.ant}</span>
-                        <span class="aux-label">مضاد</span>
-                    </div>
-                `;
-            }
 
-            // 3. Past Forms (for Irregular Verbs)
-            if (verb && verb.past && verb.pp) {
-                 html += `
-                    <div class="aux-item past-form" data-speak="${verb.past}" data-type="past">
-                        <span class="aux-word">${verb.past}</span>
-                        <span class="aux-label">ماضي</span>
-                    </div>
-                    <div class="aux-item past-form" data-speak="${verb.pp}" data-type="pp">
-                        <span class="aux-word">${verb.pp}</span>
-                        <span class="aux-label">ت. ثالث</span>
-                    </div>
-                `;
+            // --- 2. Past Forms (Only appear for items in the Irregular Verbs section) ---
+            if (isVerbSection) {
+                const verb = getIrregularVerb(wordData);
+                if (verb && verb.past && verb.pp) {
+                    html += '<div class="verb-forms-container">'; // New container for styling separation
+                    html += `
+                        <div class="aux-item past-form" data-speak="${verb.past}" data-type="past">
+                            <span class="aux-word">${verb.past}</span>
+                            <span class="aux-label">ماضي</span>
+                        </div>
+                        <div class="aux-item past-form" data-speak="${verb.pp}" data-type="pp">
+                            <span class="aux-word">${verb.pp}</span>
+                            <span class="aux-label">ت. ثالث</span>
+                        </div>
+                    `;
+                    html += '</div>';
+                }
             }
             
-            html += '</div>';
             return html;
         }
 
@@ -517,9 +644,13 @@
                         main: word,
                         syn: item.syn,
                         ant: item.ant,
-                        cardIndex: allWordsForReading.length // Index of the main word
+                        cardIndex: allWordsForReading.length 
                     };
                     allWordsForReading.push(readingItem);
+
+                    // Determine the main display word and its Arabic meaning
+                    const displayWord = item.en || item.present;
+                    const displayAr = item.ar || '';
 
                     // Create the card element
                     const card = document.createElement('div');
@@ -529,9 +660,9 @@
                     
                     // Build the card content
                     card.innerHTML = `
-                        <div class="main-word-area" data-speak="${word}" data-type="main">
-                            <h2>${word}</h2>
-                            <p class="arabic-meaning">${ar}</p>
+                        <div class="main-word-area" data-speak="${displayWord}" data-type="main">
+                            <h2>${displayWord}</h2>
+                            <p class="arabic-meaning">${displayAr}</p>
                         </div>
                         ${buildAuxiliaryHTML(item, isVerbSection)}
                     `;
@@ -638,7 +769,6 @@
             const card = document.querySelector(`.card[data-read-index="${currentWordIndex}"]`);
 
             if (!card) {
-                // Should not happen, but as a safety net
                 currentWordIndex++;
                 readNextItem();
                 return;
@@ -648,6 +778,7 @@
             const sequence = [
                 { text: itemData.main, type: 'main' }
             ];
+            // Only read syn and ant if they exist in the item (they only exist in Section 2)
             if (itemData.syn) sequence.push({ text: itemData.syn, type: 'synonym' });
             if (itemData.ant) sequence.push({ text: itemData.ant, type: 'antonym' });
             
@@ -715,7 +846,5 @@
         
     </script>
 
-</body>
-</html>
 </body>
 </html>
