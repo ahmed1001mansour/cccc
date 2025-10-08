@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Ahmed Mansour | جميع مفردات الدروس (1-5)</title>
+    
+    <style>
+        :root {
+            --primary-color: #26A69A; /* لون مائي جديد للمواضيع المتنوعة */
+            --secondary-color: #FF7043; /* برتقالي للتأكيد */
+            --background-light: #F7FBFB;
+            --text-dark: #212121;
+            --card-background: #FFFFFF;
+            --border-radius: 12px;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+            text-align: right; 
+        }
+
+        /* رأس الصفحة (Header) */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-light);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        /* أدوات التحكم (Controls) */
+        .controls-container {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column; 
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .controls-container h2 {
+            width: 100%;
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            min-width: 150px;
+        }
+
+        button:hover {
+            background-color: #00897B; 
+        }
+        
+        button#stop-speaking {
+            background-color: #E53935; 
+        }
+        
+        /* شريط السرعة */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 150px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            background: var(--secondary-color);
+            border: 2px solid white;
+        }
+
+        .speed-value {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        /* بطاقات الكلمات (Word Cards) */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .word-card {
+            background-color: var(--card-background);
+            border: 1px solid #E0E0E0;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .word-card.active-speaking {
+            background-color: #E0F2F1; 
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(38, 166, 154, 0.5);
+        }
+
+        .english-word {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            direction: ltr; 
+            text-align: left;
+        }
+
+        .arabic-translation {
+            font-size: 1.1em;
+            color: var(--text-dark);
+            font-weight: 500;
+            border-top: 1px solid #EEE;
+            padding-top: 10px;
+            margin-top: 10px;
+            text-align: right;
+        }
+        
+        .translation-details {
+            font-size: 0.85em;
+            color: #777;
+        }
+        
+        /* قسم عنوان كل مجموعة كلمات */
+        .category-title {
+            grid-column: 1 / -1; 
+            text-align: right;
+            margin: 20px 0 10px;
+            font-size: 1.8em;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        /* استجابة التصميم للهواتف (Media Queries) */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .controls-row { flex-direction: column; gap: 10px; }
+            button { width: 100%; min-width: 100%; }
+            .category-title { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mr Ahmed Mansour</h1>
+        <p>جميع مفردات الدروس التفاعلية (1-5)</p>
+    </header>
+    
+    <main>
+        <div class="controls-container">
+            <h2>🎙️ أدوات التحكم الصوتي</h2>
+            <div class="controls-row">
+                <button id="speak-all-words">تشغيل نطق كل الكلمات بالتسلسل</button>
+                <button id="stop-speaking">إيقاف القراءة</button>
+            </div>
+            
+            <div class="controls-row">
+                <div class="control-group">
+                    <label for="speech-rate">سرعة النطق:</label>
+                    <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1.0">
+                    <span class="speed-value" id="current-rate">1.0x</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="word-grid" id="word-grid">
+            
+        </div>
+    </main>
+    
+    <footer>
+        <p style="text-align: center; margin-top: 20px; font-size: 0.85em; color: #777;">تم تجميع المفردات من جميع الدروس المرفقة (1، 2، 3، 4، 5).</p>
+    </footer>
+
+    <script>
+        // 1. تعريف مصفوفة الكلمات (مجمعة ومقسمة حسب الصور الأربع)
+        const words = [
+            // === الدرس 1: العناية بالنباتات ===
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "natural fertilizer", arabic: "سماد عضوي (طبيعي)" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "weeds", arabic: "أعشاب برية (ضارة)" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "mint", arabic: "نبات النعناع" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "hibiscus", arabic: "نبات الكركدية" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "basil", arabic: "نبات الريحان" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "parsley", arabic: "نبات البقدونس" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "plants", arabic: "نباتات" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "environment", arabic: "البيئة" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "incredible", arabic: "رائع - مذهل" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "thyme", arabic: "نبات الزعتر" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "lavender", arabic: "لافندر (خزامى)" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "ginger", arabic: "زنجبيل" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "Egyptian dishes", arabic: "أطباق مصرية" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "sage", arabic: "مريمية (نوع من الأعشاب)" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "decoration", arabic: "زينة" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "care", arabic: "اهتمام / عناية" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "flavor", arabic: "طعم - نكهة" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "insects", arabic: "حشرات" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "jasmine", arabic: "نبات الياسمين" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "hibiscus tea", arabic: "مشروب الكركدية" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "guava", arabic: "فاكهة الجوافة" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "hard work", arabic: "الاجتهاد في العمل" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "harmful", arabic: "مضر - مؤذي" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "herbs", arabic: "أعشاب (طبيعية)" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "kind", arabic: "نوع" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "healthy", arabic: "صحي" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "tasty", arabic: "لذيذ" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "drink", arabic: "مشروب" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "soil", arabic: "التربة" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "fig", arabic: "فاكهة التين" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "sunlight", arabic: "ضوء الشمس" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "olive trees", arabic: "أشجار الزيتون" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "sweet", arabic: "حلو المذاق" },
+            { category: "🌱 المفردات الأساسية (الدرس 1: العناية بالنباتات)", english: "mint tea", arabic: "شاي بالنعناع" },
+            
+            // === الدرس 2: الطقس ===
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "weather", arabic: "الطقس" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "shade", arabic: "ظل" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "wet", arabic: "مبلل" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "hat", arabic: "قبعة" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "clear", arabic: "صاف - واضح" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "dark", arabic: "مظلم / غائم" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "dusty", arabic: "مغبر / غبار" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "heat", arabic: "حرارة" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "strong", arabic: "قوي" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "waves", arabic: "أمواج (البحر)" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "sunglasses", arabic: "نظارة شمسية" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "windy", arabic: "عاصف" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "warm", arabic: "دافئ" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "sunny", arabic: "مشمس" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "rainy", arabic: "ممطر" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "clouds", arabic: "غيوم" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "outdoors", arabic: "بالخارج" },
+            { category: "☀️ المفردات الأساسية (الدرس 2: الطقس)", english: "indoors", arabic: "بالداخل" },
+
+            // === الدرس 3: نهر النيل ===
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "kingfisher", arabic: "طائر الرفراف" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "crocodile", arabic: "تمساح" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "tilapia", arabic: "سمك البلطي" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "The Nile River", arabic: "نهر النيل" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "world", arabic: "العالم" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "south", arabic: "جنوب" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "north", arabic: "شمال" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "desert", arabic: "صحراء" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "country", arabic: "دولة" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "Nile perch", arabic: "سمك نيل / نهري" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "dangerous", arabic: "خطر" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "heron", arabic: "طائر البلشون (طائر نهري يأكل الأسماك)" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "ducks", arabic: "البط" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "soil", arabic: "تربة زراعية" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "wheat", arabic: "قمح" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "vegetables", arabic: "خضراوات" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "boats", arabic: "قوارب" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "special", arabic: "مميز / خاص" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "temples", arabic: "معابد" },
+            { category: "🌊 المفردات الأساسية (الدرس 3: نهر النيل)", english: "the longest", arabic: "الأطول" },
+            
+            // === الدرس 4 و 5: رحلة إلى وادي الريان ===
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "lake", arabic: "بحيرة" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "fossils", arabic: "حفريات" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "skeleton", arabic: "هيكل عظمي" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "waterfall", arabic: "شلال مياه" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "sand dunes", arabic: "كثبان رملية" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "guide", arabic: "مرشد" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "history", arabic: "تاريخ" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "rare", arabic: "نادر" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "tucked", arabic: "مخبأ" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "exhibit", arabic: "معرض صغير" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "national park", arabic: "محمية طبيعية" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "farms", arabic: "مزارع" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "palm trees", arabic: "أشجار النخيل" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "magazine", arabic: "مجلة" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "thankfully", arabic: "لحسن الحظ" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "Wadi El-Hitan (Valley of the Whales)", arabic: "محمية وادي الحيتان الطبيعية" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "whales", arabic: "حيتان" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "real", arabic: "حقيقي / واقعي" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "valley", arabic: "وادي" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "bones", arabic: "عظام" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "fossil museum", arabic: "متحف للحفريات" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "surprised", arabic: "منبهر / متفاجئ" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "nature", arabic: "طبيعة" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "wooden", arabic: "خشبي" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "camera", arabic: "آلة تصوير" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "bench", arabic: "مقعد" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "snapshot", arabic: "صورة / لقطة" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "scientist", arabic: "عالم" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "ancient", arabic: "قديم" },
+            { category: "🏞️ المفردات الأساسية (الدرس 4 و 5: وادي الريان)", english: "mostly", arabic: "غالباً / في العموم" },
+            
+            // === تصريف الأفعال المنتظمة (Regular Verbs) ===
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "need (needed)", arabic: "يحتاج" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "relax (relaxed)", arabic: "يسترخي" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "add (added)", arabic: "يضيف" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "rest (rested)", arabic: "يستريح" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "plant (planted)", arabic: "يزرع" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "stay (stayed)", arabic: "يمكث / يقيم" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "check (checked)", arabic: "يفحص / يتأكد" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "protect (protected)", arabic: "يحمي" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "flow (flowed)", arabic: "يندفق" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "flood (flooded)", arabic: "يفيض" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "provide (provided)", arabic: "يزود / يمد بـ" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "travel (traveled)", arabic: "يسافر" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "depend (depended)", arabic: "يعتمد" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "organize (organized)", arabic: "ينظم" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "arrive (arrived)", arabic: "يصل" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "name (named)", arabic: "يُسمي" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "explain (explained)", arabic: "يفسر / يشرح" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "cover (covered)", arabic: "يغطي / يكسو" },
+            { category: "🛠️ تصريف الأفعال المنتظمة (Regular Verbs)", english: "realize (realized)", arabic: "يدرك" },
+
+            // === تصريف الأفعال الشاذة (Irregular Verbs) ===
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "grow (grew)", arabic: "يزرع - ينمو" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "drink (drank)", arabic: "يشرب" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "keep (kept)", arabic: "يحافظ / يجعل" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "sit (sat)", arabic: "يجلس" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "write (wrote)", arabic: "يكتب" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "fly (flew)", arabic: "يطير" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "wear (wore)", arabic: "يرتدي" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "bring (brought)", arabic: "يجلب / يحضر" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "build (built)", arabic: "يبني" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "swim (swam)", arabic: "يسبح" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "think (thought)", arabic: "يفكر / يعتقد" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "leave (left)", arabic: "يغادر" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "ride (rode)", arabic: "يركب" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "come (came)", arabic: "يأتي" },
+            { category: "🔧 تصريف الأفعال الشاذة (Irregular Verbs)", english: "find (found)", arabic: "يجد" },
+
+            // === تعبيرات وحروف جر هامة (Important Expressions) ===
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "pull out", arabic: "يقلع - ينزع" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "care for", arabic: "يعتني - يهتم بـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "water", arabic: "يسقي - يروي" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "take care of = care for", arabic: "يعتني بـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "good for health", arabic: "جيد / مفيد للصحة" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "on the balcony", arabic: "في الشرفة" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "taste good", arabic: "مذاقه جيد" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "smell lovely", arabic: "رائحته جميلة" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "full of", arabic: "مليء بـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "take time to grow", arabic: "يستغرق وقتاً لينمو" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "That's cool!", arabic: "هذا رائع!" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "check for", arabic: "يتأكد من وجود" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "since ancient times", arabic: "منذ العصور القديمة" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "harmful to", arabic: "مضر لـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "tell... about", arabic: "يخبر ... عن" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "full of dark clouds", arabic: "مليء بالغيوم" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "rain heavily", arabic: "تمطر بغزارة" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "clear sky", arabic: "سماء صافية" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "protect... from", arabic: "يحمي ... من" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "stay indoors", arabic: "يمكث بالداخل" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "write back soon", arabic: "عاود الكتابة قريباً" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "check the weather", arabic: "التحقق من الطقس" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "sit in the shade", arabic: "يجلس في الظل" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "flow through", arabic: "يندفق خلال" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "go through", arabic: "يجري خلال" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "bring life to", arabic: "تجلب الحياة لـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "from south to north", arabic: "من الجنوب للشمال" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "good soil", arabic: "تربة خصبة" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "near the Nile", arabic: "بالقرب من نهر النيل" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "provide ... with", arabic: "يمد ... بـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "depend on", arabic: "يعتمد على" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "important for", arabic: "هام لـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "unforgettable trip", arabic: "رحلة لا تنسى" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "in the distance", arabic: "من مكان بعيد" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "with no luck", arabic: "دون حظ / دون جدوى" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "on the way", arabic: "في الطريق" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "covered by", arabic: "مغطى بـ" },
+            { category: "🔗 تعبيرات وحروف جر هامة (Expressions & Prepositions)", english: "wildlife snapshot", arabic: "لقطة للحياة البرية" },
+        ];
+
+        // 2. العناصر الأساسية في DOM
+        const wordGrid = document.getElementById('word-grid');
+        const speakAllButton = document.getElementById('speak-all-words');
+        const stopSpeakingButton = document.getElementById('stop-speaking');
+        const speechRateInput = document.getElementById('speech-rate');
+        const currentRateSpan = document.getElementById('current-rate');
+
+        // 3. حالة النطق والمؤشر
+        let isSpeaking = false;
+        let currentWordIndex = 0;
+
+        // 4. وظيفة النطق الصوتي (SpeechSynthesis)
+        const speakWord = (text, callback = null) => {
+            if (!('speechSynthesis' in window)) {
+                alert("عذراً، متصفحك لا يدعم خاصية النطق الصوتي (SpeechSynthesis).");
+                return;
+            }
+
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; 
+            utterance.rate = parseFloat(speechRateInput.value); 
+            
+            // تحديد البطاقة النشطة
+            const activeCard = document.querySelector('.word-card.active-speaking');
+            if (activeCard) {
+                activeCard.classList.remove('active-speaking');
+            }
+            const targetCard = document.querySelector(`.word-card[data-index="${currentWordIndex}"]`);
+            if (targetCard) {
+                targetCard.classList.add('active-speaking');
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            
+            utterance.onstart = () => {
+                isSpeaking = true;
+            };
+
+            utterance.onend = () => {
+                isSpeaking = false;
+                if (targetCard) {
+                    targetCard.classList.remove('active-speaking');
+                }
+                
+                if (callback) {
+                    callback();
+                }
+            };
+            
+            utterance.onerror = (event) => {
+                console.error('SpeechSynthesis Utterance Error:', event.error);
+                isSpeaking = false;
+                if (targetCard) {
+                    targetCard.classList.remove('active-speaking');
+                }
+            };
+
+            speechSynthesis.speak(utterance);
+        };
+
+        // 5. وظيفة تشغيل النطق المتسلسل
+        const speakSequence = () => {
+            if (currentWordIndex < words.length && isSpeaking === false) {
+                const wordData = words[currentWordIndex];
+                
+                const nextAction = () => {
+                    currentWordIndex++; 
+                    if (currentWordIndex < words.length) {
+                        speakSequence(); 
+                    } else {
+                        currentWordIndex = 0; 
+                    }
+                };
+
+                speakWord(wordData.english, nextAction);
+            } else {
+                if (currentWordIndex >= words.length) {
+                    currentWordIndex = 0; 
+                }
+            }
+        };
+
+        // 6. وظيفة إيقاف النطق
+        const stopSpeaking = () => {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+                isSpeaking = false;
+                const activeCard = document.querySelector('.word-card.active-speaking');
+                if (activeCard) {
+                    activeCard.classList.remove('active-speaking');
+                }
+            }
+            currentWordIndex = 0; 
+        };
+
+        // 7. إنشاء بطاقات الكلمات (مع دعم تصنيف الكلمات)
+        const createWordCards = () => {
+            let currentCategory = '';
+            words.forEach((word, index) => {
+                
+                // إضافة عنوان الفئة إذا كانت جديدة
+                if (word.category && word.category !== currentCategory) {
+                    currentCategory = word.category;
+                    const title = document.createElement('h2');
+                    title.className = 'category-title';
+                    title.textContent = currentCategory;
+                    wordGrid.appendChild(title);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                card.dataset.index = index; 
+                
+                const english = document.createElement('div');
+                english.className = 'english-word';
+                english.textContent = word.english;
+                
+                const translation = document.createElement('div');
+                translation.className = 'arabic-translation';
+                
+                const parts = word.arabic.split(/\s*[-–(]/);
+                translation.innerHTML = `
+                    ${parts[0].trim()}
+                    ${parts.length > 1 ? `<span class="translation-details">(${parts.slice(1).join('-').trim()}</span>` : ''}
+                `;
+                
+                card.appendChild(english);
+                card.appendChild(translation);
+                
+                // ربط النقر بتشغيل الصوت الفردي
+                card.addEventListener('click', () => {
+                    currentWordIndex = index; 
+                    speakWord(word.english); 
+                });
+                
+                wordGrid.appendChild(card);
+            });
+        };
+
+        // 8. تهيئة الأحداث (Listeners)
+        const initListeners = () => {
+            speakAllButton.addEventListener('click', () => {
+                stopSpeaking(); 
+                currentWordIndex = 0; 
+                speakSequence();
+            });
+
+            stopSpeakingButton.addEventListener('click', stopSpeaking);
+
+            speechRateInput.addEventListener('input', () => {
+                currentRateSpan.textContent = `${speechRateInput.value}x`;
+            });
+        };
+
+        // 9. تشغيل التطبيق
+        document.addEventListener('DOMContentLoaded', () => {
+            createWordCards();
+            initListeners();
+        });
+    </script>
+</body>
+</html>
