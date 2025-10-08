@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Ahmed Mansour - قاموس الكلمات التفاعلي الشامل</title>
+    <style>
+        /* ----------------------- */
+        /* CSS: التصميم والأناقة  */
+        /* ----------------------- */
+        :root {
+            --primary-color: #007bff; /* أزرق جذاب */
+            --secondary-color: #28a745; /* أخضر */
+            --background-color: #f8f9fa; /* خلفية فاتحة */
+            --card-background: #ffffff; /* خلفية البطاقة */
+            --text-color: #343a40; /* لون النص الأساسي */
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif; 
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            text-align: right;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        /* التحكمات */
+        .controls-bar {
+            background-color: var(--card-background);
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 10px;
+            direction: rtl;
+        }
+
+        .controls-bar button, .controls-bar select {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color var(--transition-speed);
+            margin: 5px 0;
+        }
+
+        .controls-bar button {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .controls-bar button:hover {
+            background-color: #218838;
+        }
+
+        .controls-bar select {
+            border: 1px solid #ccc;
+            background-color: #eee;
+        }
+
+        /* شبكة الكلمات */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* بطاقة الكلمة العادية */
+        .word-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            cursor: pointer;
+            border-right: 5px solid var(--primary-color);
+            min-height: 120px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .word-card.active {
+            border-right-color: var(--secondary-color);
+            background-color: #e2f0e3; 
+        }
+        
+        /* بطاقة عنوان القسم */
+        .section-header-card {
+            grid-column: 1 / -1; /* تجعل البطاقة تمتد على كل أعمدة الشبكة */
+            background-color: #34495e; /* لون غامق لتمييز العنوان */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: default;
+        }
+        
+        /* تنسيقات خاصة للمتلازمات اللفظية */
+        .word-card[data-type="collocation"] {
+            border-right: 5px solid #ffc107; /* أصفر */
+        }
+        .word-card[data-type="collocation"] .english {
+            font-size: 1.2rem;
+            color: #ff8000;
+        }
+        
+        /* تنسيقات للمرادفات والمتضادات */
+        .word-card[data-type="synonym"] {
+            border-right: 5px solid #00c190; /* أخضر مائي */
+        }
+        .word-card[data-type="antonym"] {
+            border-right: 5px solid #dc3545; /* أحمر داكن */
+        }
+        /* لتسهيل رؤية قائمة المرادفات/المتضادات (التي هي في خانة .arabic) */
+        .word-card[data-type="antonym"] .arabic, 
+        .word-card[data-type="synonym"] .arabic {
+            font-size: 1.1rem;
+            color: #000; /* جعل اللون أسود واضح للنطق الإنجليزي */
+            direction: ltr;
+            text-align: left;
+            font-weight: 500;
+        }
+        /* تعديل النص الرئيسي ليكون اسم القسم */
+        .word-card[data-type="antonym"] .english, 
+        .word-card[data-type="synonym"] .english {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        /* تنسيقات للتعبيرات والأفعال وحروف الجر */
+        .word-card[data-type="expressions"] {
+            border-right: 5px solid #6f42c1; /* بنفسجي */
+        }
+        .word-card[data-type="verb-prep"] {
+            border-right: 5px solid #fd7e14; /* برتقالي */
+        }
+
+
+        .word-card .english {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            direction: ltr; 
+            text-align: left;
+        }
+        
+        /* تعديل اللون في بطاقات المشتقات لتمييزها قليلاً */
+        .word-card[data-type="derivative"] .english {
+            color: #d9534f; /* أحمر خفيف للمشتقات */
+        }
+
+        .word-card .arabic {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .word-card .part-of-speech {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* الاستجابة للهاتف (Mobile Responsiveness) */
+        @media (max-width: 600px) {
+            .word-grid {
+                grid-template-columns: 1fr; 
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>قاموس Mr Ahmed Mansour التفاعلي الشامل</h1>
+        <p>يشمل الكلمات، المشتقات، المرادفات، المتضادات، المتلازمات، والتعبيرات 🔊</p>
+    </header>
+
+    <div class="controls-bar">
+        <button id="playAllBtn">تشغيل نطق جميع الكلمات ▶️</button>
+        <button id="stopBtn">إيقاف القراءة ⏹️</button>
+        <div>
+            <label for="rateControl">سرعة النطق:</label>
+            <select id="rateControl">
+                <option value="0.75">بطيء</option>
+                <option value="1" selected>عادي</option>
+                <option value="1.25">سريع قليلًا</option>
+                <option value="1.5">سريع</option>
+            </select>
+        </div>
+    </div>
+
+    <main class="word-grid" id="wordGrid"></main>
+
+    <script>
+        /* ----------------------- */
+        /* JavaScript: البيانات والمنطق */
+        /* ----------------------- */
+
+        // تعريف الكلمات مرتبة ومقسمة بدقة حسب الأقسام والصور المرفقة
+        const wordSections = [
+            // --------------------------------------------------------------------------------
+            // 1. المفردات الرئيسية (Key Vocabulary) - من صورة 607788.jpg
+            // --------------------------------------------------------------------------------
+            { 
+                title: "1. المفردات الرئيسية (Key Vocabulary)", 
+                type: "important", 
+                words: [
+                    { en: 'achieve(v)', ar: 'يُحقق - يُنجز', pos: 'Key' },
+                    { en: 'achievement(n)', ar: 'إنجاز - تحقيق', pos: 'Key' },
+                    { en: 'admiration(n)', ar: 'إعجاب - احترام', pos: 'Key' },
+                    { en: 'admire(d)(v)', ar: 'يُعجب - يقدر', pos: 'Key' },
+                    { en: 'advance(d)(v)', ar: 'يُقدم - يُتَقَدم', pos: 'Key' },
+                    { en: 'civilization(n)', ar: 'حضارة', pos: 'Key' },
+                    { en: 'heritage(n)', ar: 'تراث - إرث', pos: 'Key' },
+                    { en: 'pride(n)', ar: 'فخر', pos: 'Key' },
+                    { en: 'inherit(ed)(v)', ar: 'يرث', pos: 'Key' },
+                    { en: 'leading(adj)', ar: 'بارز - هام', pos: 'Key' }, 
+                    { en: 'merchant(n)', ar: 'تاجر', pos: 'Key' },
+                    { en: 'monuments(n)', ar: 'آثار', pos: 'Key' },
+                    { en: 'responsibility(n)', ar: 'مسؤولية', pos: 'Key' },
+                    { en: 'root(n)', ar: 'جذر - أصل', pos: 'Key' },
+                    { en: 'valuable(adj)', ar: 'قيّم - نفيس', pos: 'Key' },
+                    { en: 'value(n)', ar: 'قيمة - يقدّر', pos: 'Key' },
+                ] 
+            },
+            // --------------------------------------------------------------------------------
+            // 2. المشتقات (Derivatives) - إنجاز وإعجاب (صورة 607af2.png)
+            // --------------------------------------------------------------------------------
+            { 
+                title: "2. المشتقات (Derivatives) - تحقيق وإعجاب", 
+                type: "derivative", 
+                words: [
+                    { en: 'achieve (v)', ar: 'يُحقق - يُنجز', pos: 'الأصل' }, 
+                    { en: 'achievement (n)', ar: 'إنجاز', pos: 'مشتق' }, 
+                    { en: 'achiever (n)', ar: 'ناجح - مُنجِز', pos: 'مشتق' },
+                    { en: 'achievable (adj)', ar: 'قابل للتحقيق', pos: 'مشتق' },
+                    
+                    { en: 'admire (v)', ar: 'يُعجب - يُقدّر', pos: 'الأصل' }, 
+                    { en: 'admiration (n)', ar: 'إعجاب', pos: 'مشتق' }, 
+                    { en: 'admirable (adv)', ar: 'جدير بالإعجاب', pos: 'مشتق' }, 
+                    { en: 'admiringly (adv)', ar: 'بإعجاب', pos: 'مشتق' },
+                ] 
+            },
+            // --------------------------------------------------------------------------------
+            // 3. المشتقات (Derivatives) - تقدم وحضارة وقيمة (صورة 607b10.jpg)
+            // --------------------------------------------------------------------------------
+            { 
+                title: "3. المشتقات (Derivatives) - تقدم، حضارة، قيمة، وقيادة", 
+                type: "derivative", 
+                words: [
+                    // advance
+                    { en: 'advance (adj)', ar: 'يُقدم - يَتَقَدَم', pos: 'الأصل' }, 
+                    { en: 'advancement (n)', ar: 'تَقَدُّم', pos: 'مشتق' },
+                    { en: 'advanced (adj)', ar: 'مُتَقَدِّم', pos: 'مشتق' },
+                    
+                    // civilize
+                    { en: 'civilized (adj)', ar: 'مُتَحَضِّر', pos: 'مشتق' },
+                    { en: 'civilization (n)', ar: 'حضارة', pos: 'الأصل' },
+                    { en: 'civilize (v)', ar: 'يُحَضِّر / يثقف', pos: 'مشتق' },
+                    
+                    // inherit
+                    { en: 'heritage (n)', ar: 'تراث', pos: 'الأصل' },
+                    { en: 'inherit (v)', ar: 'يرث', pos: 'مشتق' },
+                    { en: 'inheritance (n)', ar: 'وراثة', pos: 'مشتق' },
+                    { en: 'inherited (adj)', ar: 'موروث', pos: 'مشتق' },
+                    
+                    // lead
+                    { en: 'leading (adj)', ar: 'بارز - هام / قيادي', pos: 'مشتق' }, 
+                    { en: 'lead (v)', ar: 'يقود', pos: 'مشتق' },
+                    { en: 'leader (n)', ar: 'قائد', pos: 'مشتق' },
+                    { en: 'leadership (n)', ar: 'قيادة', pos: 'مشتق' },
+
+                    // merchant
+                    { en: 'merchant (v)', ar: 'تاجر', pos: 'الأصل' }, 
+                    { en: 'merchandise (n)', ar: 'سِلَع - بضاعة', pos: 'مشتق' },
+
+                    // value
+                    { en: 'value (n)', ar: 'قيمة - يُقَيِّم', pos: 'الأصل' },
+                    { en: 'valuable (adj)', ar: 'قيّم - غال', pos: 'مشتق' },
+                    { en: 'valueless (adj)', ar: 'عديم القيمة', pos: 'مشتق' },
+                    { en: 'evaluate (v)', ar: 'يُقَيِّم', pos: 'مشتق' },
+                    { en: 'evaluation (v)', ar: 'تقييم', pos: 'مشتق' },
+                ] 
+            },
+            // --------------------------------------------------------------------------------
+            // 4. المفردات الهامة الإضافية (من ص. 40 وصورة 60778e.png)
+            // --------------------------------------------------------------------------------
+            { 
+                title: "4. المفردات الهامة الإضافية (Important Vocabulary)", 
+                type: "important", 
+                words: [
+                    // من قائمة 2 (ص 40)
+                    { en: 'advice(n)', ar: 'نصيحة', pos: 'Important' },
+                    { en: 'article(n)', ar: 'مقال', pos: 'Important' },
+                    { en: 'amaze(v)', ar: 'يُدهش / يذهل', pos: 'Important' },
+                    { en: 'author(n)', ar: 'مؤلف', pos: 'Important' },
+                    { en: 'background(n)', ar: 'خلفية - معلومات أساسية', pos: 'Important' },
+                    { en: 'benefit(n)', ar: 'فائدة - منفعة', pos: 'Important' },
+                    { en: 'challenge(n)', ar: 'تحدٍ - صعوبة', pos: 'Important' },
+                    { en: 'communication(n)', ar: 'تواصل', pos: 'Important' },
+                    { en: 'conclusion(n)', ar: 'خاتمة - استنتاج', pos: 'Important' },
+                    { en: 'context(n)', ar: 'سياق - إطار', pos: 'Important' },
+                    { en: 'convenient(adj)', ar: 'ملائم - مريح', pos: 'Important' },
+                    { en: 'create(d)(v)', ar: 'يخلق - يُنشئ', pos: 'Important' },
+                    { en: 'creative(adj)', ar: 'إبداعي - خلاق', pos: 'Important' },
+                    { en: 'determination(n)', ar: 'عزم - تصميم', pos: 'Important' },
+                    { en: 'display(v)', ar: 'يعرض - يُظهر', pos: 'Important' },
+                    { en: 'elsewhere(adv)', ar: 'في مكان آخر', pos: 'Important' },
+                    { en: 'entire(adj)', ar: 'كامل - كلي', pos: 'Important' },
+                    { en: 'evidence(n)', ar: 'دليل - برهان', pos: 'Important' },
+                    { en: 'express(d)(v)', ar: 'يُعبر', pos: 'Important' },
+                    { en: 'insight(n)', ar: 'تبصرة - فهم عميق', pos: 'Important' },
+                    { en: 'knowledge(n)', ar: 'معرفة - علم', pos: 'Important' },
+                    { en: 'magnificent(adj)', ar: 'رائع - فخم', pos: 'Important' },
+                    { en: 'mighty(adj)', ar: 'جبار - قوي', pos: 'Important' },
+                    { en: 'non-fiction(adj)', ar: 'غير خيالي - واقعي', pos: 'Important' },
+                    { en: 'phrase(n)', ar: 'عبارة - تعبير', pos: 'Important' },
+                    { en: 'pleasure(n)', ar: 'متعة - سرور', pos: 'Important' },
+                    { en: 'poet(n)', ar: 'شاعر', pos: 'Important' },
+                    { en: 'point(n)', ar: 'نقطة - وضع', pos: 'Important' },
+                    { en: 'regular(adj)', ar: 'منتظم - دوري', pos: 'Important' },
+                    { en: 'relax(ed)(v)', ar: 'يسترخي - يهدأ', pos: 'Important' },
+                    { en: 'rephrase(d)(v)', ar: 'يُعيد صياغة', pos: 'Important' },
+                    { en: 'respect(d)(n)', ar: 'احترام - تقدير', pos: 'Important' },
+                    { en: 'run-run-run(adj)', ar: 'تكرار - استمرار', pos: 'Important' }, 
+                    { en: 'scene(n)', ar: 'مشهد', pos: 'Important' },
+                    { en: 'shared(adj)', ar: 'مشترك', pos: 'Important' },
+                    { en: 'single(adj)', ar: 'وحيد - مفرد', pos: 'Important' },
+                    { en: 'statement(n)', ar: 'بيان - تصريح', pos: 'Important' },
+                    { en: 'thesis(n)', ar: 'أطروحة - رسالة', pos: 'Important' },
+                    
+                    // من صورة 60778e.png
+                    { en: 'figure(n)', ar: 'شخصية - رقم', pos: 'Important' },
+                    { en: 'gift(n)', ar: 'هبة - موهبة', pos: 'Important' },
+                    { en: 'habit(n)', ar: 'عادة', pos: 'Important' },
+                    { en: 'hook(n)', ar: 'خطاف جاذب - مقدمة مشوقة', pos: 'Important' },
+                    { en: 'imagine(d)(v)', ar: 'يتخيل', pos: 'Important' },
+                    { en: 'impressive(adj)', ar: 'مثير للإعجاب / مؤثر', pos: 'Important' },
+                    { en: 'improve(d)(v)', ar: 'يتحسن - يُحسن', pos: 'Important' },
+                    { en: 'thinker(n)', ar: 'مفكر', pos: 'Important' },
+                    { en: 'thinking(n)', ar: 'التفكير', pos: 'Important' },
+                    { en: 'tradition(n)', ar: 'تقليد - عرف', pos: 'Important' },
+                    { en: 'treasures(n)', ar: 'كنوز', pos: 'Important' },
+                    { en: 'visualize(d)(v)', ar: 'يتصور', pos: 'Important' },
+                    { en: 'vision(n)', ar: 'رؤية', pos: 'Important' },
+                    { en: 'wisdom(n)', ar: 'حكمة', pos: 'Important' },
+                    { en: 'wise(adj)', ar: 'حكيم', pos: 'Important' },
+                ] 
+            },
+            // --------------------------------------------------------------------------------
+            // 5. المتلازمات اللفظية (Verbal Collocations) - من صور 608e2d.png و 608e34.png
+            // --------------------------------------------------------------------------------
+             { 
+                title: "5. المتلازمات اللفظية (Verbal Collocations)", 
+                type: "collocation", 
+                words: [
+                    // من صورة 608e34.png
+                    { en: 'display treasures', ar: 'يَعرض الكنوز', pos: 'Collocation' },
+                    { en: 'do revision', ar: 'يُراجع', pos: 'Collocation' },
+                    { en: 'face challenges', ar: 'يُواجه التحديات', pos: 'Collocation' },
+                    { en: 'give advice', ar: 'يُقدِّم النصيحة', pos: 'Collocation' },
+                    { en: 'prepare ideas', ar: 'يُحضّر الأفكار', pos: 'Collocation' },
+                    { en: 'protect treasures', ar: 'يَحفظ الكنوز', pos: 'Collocation' },
+                    { en: 'prove greatness', ar: 'يُثبِت العظمة', pos: 'Collocation' },
+                    
+                    // من صورة 608e2d.png
+                    { en: 'build monuments', ar: 'يَبني الآثار', pos: 'Collocation' },
+                    { en: 'build tomorrow', ar: 'يَبني للمستقبل', pos: 'Collocation' },
+                    { en: 'connect continents', ar: 'يَربط القارات', pos: 'Collocation' },
+                    { en: 'develop mathematics', ar: 'يُطوّر علم الرياضيات', pos: 'Collocation' },
+                    { en: 'gain admiration', ar: 'يَكسب الإعجاب', pos: 'Collocation' },
+                    { en: 'gain respect', ar: 'يَكسب الاحترام', pos: 'Collocation' },
+                    { en: 'honor the past', ar: 'يَفتخر بالماضي', pos: 'Collocation' },
+                    { en: 'make progress', ar: 'يُحرز التقدُم', pos: 'Collocation' },
+                ] 
+            },
+            // --------------------------------------------------------------------------------
+            // 6. المرادفات (Synonyms) - من صورة 608ecd.png وصورة 60e101.jpg
+            // --------------------------------------------------------------------------------
+            {
+                title: "6. المرادفات (Synonyms) (اضغط لسماع الكلمة وقائمة المرادفات الإنجليزية)",
+                type: "synonym",
+                words: [
+                    // يتم دمج word.en و word.ar للنطق
+                    { en: 'achieve (v)', ar: 'accomplish, attain, reach, realize', pos: 'يُنجز / ينجح في' },
+                    { en: 'achievement (n)', ar: 'accomplishment, success, triumph', pos: 'إنجاز / نجاح' },
+                    
+                    // من قائمة 60e101.jpg (تجميع)
+                    { en: 'admiration (n)', ar: 'appreciation, esteem, respect', pos: 'إعجاب / احترام' },
+                    { en: 'admire (v)', ar: 'appreciate, respect, praise', pos: 'يُعجب / يقدر' },
+                    { en: 'advance (v)', ar: 'progress, improve, develop', pos: 'يُقدم / يتطور' },
+                    { en: 'civilization (n)', ar: 'culture, society, advancement', pos: 'حضارة / مجتمع' },
+                    { en: 'heritage (n)', ar: 'legacy, tradition, inheritance', pos: 'تراث / إرث' },
+                    { en: 'inherit (v)', ar: 'receive, acquire, obtain', pos: 'يرث / يكتسب' },
+                    { en: 'leading (adj)', ar: 'top, main, principal', pos: 'بارز / رئيسي' },
+                    { en: 'merchant (n)', ar: 'trader, dealer', pos: 'تاجر' },
+                    { en: 'root (n)', ar: 'origin, source, base', pos: 'جذر / أصل' },
+                    { en: 'valuable (adj)', ar: 'precious, important, priceless', pos: 'قيّم / ثمين' },
+                    { en: 'value (n)', ar: 'worth, importance, principle', pos: 'قيمة / مبدأ' },
+                    { en: 'wise (adj)', ar: 'intelligent, sensible, clever', pos: 'حكيم / ذكي' },
+                ]
+            },
+            // --------------------------------------------------------------------------------
+            // 7. المتضادات (Antonyms) - من صورة 60e101.jpg
+            // --------------------------------------------------------------------------------
+            {
+                title: "7. المتضادات (Antonyms) (اضغط لسماع الكلمة وقائمة المتضادات الإنجليزية)",
+                type: "antonym",
+                words: [
+                    // يتم دمج word.en و word.ar للنطق
+                    { en: 'achievement (n)', ar: 'failure, defeat, loss', pos: 'فشل - خسارة' },
+                    { en: 'admiration (n)', ar: 'dislike, disapproval, contempt', pos: 'كراهية - احتقار' },
+                    { en: 'admire (v)', ar: 'dislike, criticize, despise, hate', pos: 'يكره - ينتقد' },
+                    { en: 'advance (v)', ar: 'retreat, regress, decline', pos: 'يتراجع - يتقهقر' },
+                    { en: 'civilization (n)', ar: 'barbarism, primitiveness, savagery', pos: 'البربرية - البدائية' },
+                    { en: 'inherit (v)', ar: 'lose, forfeit, disinherit', pos: 'يحرم - يفقد الميراث' },
+                    { en: 'leading (adj)', ar: 'minor, unimportant, insignificant', pos: 'ثانوي - غير هام' },
+                    { en: 'merchant (n)', ar: 'customer, buyer, consumer', pos: 'زبون - مستهلك' },
+                    { en: 'root (n)', ar: 'branch, leaf, surface', pos: 'غصن - سطح' },
+                    { en: 'valuable (adj)', ar: 'worthless, cheap, valueless', pos: 'تافه - عديم القيمة' },
+                    { en: 'value (n)', ar: 'worthlessness, insignificance, triviality', pos: 'انعدام القيمة - تفاهة' },
+                    { en: 'wise (adj)', ar: 'foolish, silly, unwise', pos: 'أحمق - غير حكيم' },
+                ]
+            },
+            // --------------------------------------------------------------------------------
+            // 8. تعبيرات ومصطلحات (Expressions & Idioms) - من صورة 60ec2a.jpg
+            // --------------------------------------------------------------------------------
+             { 
+                title: "8. تعبيرات ومصطلحات (Expressions & Idioms)", 
+                type: "expressions", 
+                words: [
+                    { en: 'answer ... in character', ar: 'يُجيب على... بلسان الشخصية', pos: 'Expression' },
+                    { en: 'balance between old and new', ar: 'توازن بين القديم والجديد', pos: 'Expression' },
+                    { en: 'call to action', ar: 'دعوة للفعل', pos: 'Expression' },
+                    { en: 'gifts to the world', ar: 'هدايا للعالم', pos: 'Expression' },
+                    { en: 'meeting point', ar: 'نقطة تلاقٍ', pos: 'Expression' },
+                    { en: 'ready to move forward', ar: 'مستعدون للتقدم', pos: 'Expression' },
+                    { en: 'roots run deep', ar: 'الجذور عميقة', pos: 'Expression' },
+                    { en: 'stand where pride begins', ar: 'في موضع جدير بالفخر', pos: 'Expression' },
+                    { en: 'work hard for the future', ar: 'يعمل بجد للمستقبل', pos: 'Expression' },
+                ] 
+            },
+            // --------------------------------------------------------------------------------
+            // 9. فعل + حرف جر (Verb + Preposition) - من صورة 60ec2a.jpg
+            // --------------------------------------------------------------------------------
+             { 
+                title: "9. فعل + حرف جر (Verb + Preposition)", 
+                type: "verb-prep", 
+                words: [
+                    { en: 'admire ... for', ar: 'يُعجب بـ ... بسبب', pos: 'V + Prep' },
+                    { en: 'believe in', ar: 'يؤمن بـ', pos: 'V + Prep' },
+                    { en: 'connect ... to', ar: 'يَربط ... بـ', pos: 'V + Prep' },
+                    { en: 'move forward', ar: 'يتقدم - يَمضي قدماً', pos: 'V + Prep' },
+                    { en: 'pass on (heritage)', ar: 'يُنقل (التراث)', pos: 'V + Prep' },
+                    { en: 'pick up', ar: 'يلتقط - يتناول', pos: 'V + Prep' },
+                    { en: 'prepare for', ar: 'يتحضر لـ', pos: 'V + Prep' },
+                    { en: 'take part in', ar: 'يُشارك في', pos: 'V + Prep' },
+                    { en: 'think about', ar: 'يُفكر في', pos: 'V + Prep' },
+                    { en: 'work for', ar: 'يعمل لـ', pos: 'V + Prep' },
+                ] 
+            }
+        ];
+        
+        // تحويل قائمة الأقسام إلى مصفوفة كلمات مسطحة للنطق المتسلسل
+        const wordDataFlat = wordSections.flatMap(section => section.words);
+
+
+        let isReadingAll = false; 
+        let currentWordIndex = 0; 
+        const speechSynthesizer = window.speechSynthesis; 
+
+        const wordGrid = document.getElementById('wordGrid');
+        const playAllBtn = document.getElementById('playAllBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const rateControl = document.getElementById('rateControl');
+
+        // 1. وظيفة إنشاء البطاقات وعرضها
+        function renderWords() {
+            wordGrid.innerHTML = '';
+            let flatIndex = 0; // مؤشر للربط بـ wordDataFlat
+
+            wordSections.forEach(section => {
+                // إضافة بطاقة عنوان القسم
+                const headerCard = document.createElement('div');
+                headerCard.classList.add('section-header-card');
+                headerCard.textContent = section.title;
+                wordGrid.appendChild(headerCard);
+
+                // إضافة بطاقات الكلمات داخل القسم
+                section.words.forEach(word => {
+                    const card = document.createElement('div');
+                    card.classList.add('word-card');
+                    card.dataset.index = flatIndex;
+                    card.dataset.type = section.type; // لتطبيق تنسيقات المشتقات والمتلازمات
+                    
+                    // إضافة النطق عند النقر
+                    card.addEventListener('click', () => {
+                        stopReading(); 
+                        currentWordIndex = flatIndex; 
+                        
+                        // تحديد النص المراد نطقه بناءً على نوع البطاقة
+                        let textToSpeak;
+                        if (card.dataset.type === 'synonym' || card.dataset.type === 'antonym') {
+                            // دمج الكلمة الأصلية وقائمة المرادفات/المتضادات في جملة واحدة للنطق المتسلسل
+                            textToSpeak = `${word.en} ${card.dataset.type}. ${word.ar}`;
+                        } else {
+                            // نطق الكلمة الإنجليزية الأساسية أو التعبير/المتلازمة
+                            textToSpeak = word.en;
+                        }
+                        
+                        speakWord(textToSpeak, card);
+                    });
+
+                    card.innerHTML = `
+                        <p class="english">${word.en}</p>
+                        <p class="arabic">${word.ar}</p>
+                        <span class="part-of-speech">${word.pos}</span>
+                    `;
+                    wordGrid.appendChild(card);
+                    flatIndex++;
+                });
+            });
+        }
+
+        // 2. وظيفة النطق الأساسية
+        function speakWord(text, cardElement = null, isSequential = false) {
+            // إلغاء أي نطق سابق
+            if (speechSynthesizer.speaking) {
+                speechSynthesizer.cancel();
+            }
+
+            // تنظيف النص للنطق: إزالة الأجزاء بين القوسين (مثل (v) أو (n)) والكلمات الإضافية (مثل الأصل/مشتق/Antonym)
+            // هذه الخطوة ضرورية لتنظيف كلمات مثل achieve(v) أو admire...for
+            const cleanText = text
+                .replace(/\s*\([^)]*\)\s*/g, '')
+                .replace(/الأصل|مشتق|Key|Important|Collocation|Antonym|Synonym/g, '')
+                .replace(/\bAntonym:\b/g, '') 
+                .replace(/\.\.\./g, '') // إزالة نقاط الامتداد
+                .trim();
+            
+            let textToSpeak = cleanText;
+            
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            
+            // البحث عن صوت إنجليزي مناسب
+            const voices = speechSynthesizer.getVoices();
+            const preferredVoice = voices.find(v => v.lang.startsWith('en-US') || v.lang.startsWith('en-GB'));
+            const genericEnglishVoice = voices.find(v => v.lang.startsWith('en-'));
+
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+            } else if (genericEnglishVoice) {
+                utterance.voice = genericEnglishVoice;
+            }
+
+            // تطبيق سرعة الصوت المحددة
+            utterance.rate = parseFloat(rateControl.value); 
+            
+            // تفعيل التمييز للبطاقة النشطة
+            document.querySelectorAll('.word-card').forEach(c => c.classList.remove('active'));
+            if (cardElement) {
+                cardElement.classList.add('active');
+            }
+
+            // التنقل التلقائي بعد الانتهاء من النطق
+            utterance.onend = () => {
+                if (isSequential && isReadingAll) {
+                    currentWordIndex++;
+                    if (currentWordIndex < wordDataFlat.length) {
+                        playNextWord();
+                    } else {
+                        isReadingAll = false;
+                        document.querySelectorAll('.word-card').forEach(c => c.classList.remove('active'));
+                    }
+                } else if (cardElement && !isSequential) {
+                    cardElement.classList.remove('active');
+                }
+            };
+            
+            speechSynthesizer.speak(utterance);
+        }
+
+        // 3. وظيفة لإيقاف النطق
+        function stopReading() {
+            if (speechSynthesizer.speaking) {
+                speechSynthesizer.cancel();
+            }
+            isReadingAll = false;
+            document.querySelectorAll('.word-card').forEach(c => c.classList.remove('active'));
+        }
+
+        // 4. وظيفة تشغيل الكلمة التالية (للوضع المتسلسل)
+        function playNextWord() {
+            if (!isReadingAll || currentWordIndex >= wordDataFlat.length) {
+                stopReading();
+                return;
+            }
+
+            const word = wordDataFlat[currentWordIndex];
+            const card = document.querySelector(`.word-card[data-index="${currentWordIndex}"]`);
+            
+            if(card) {
+                // تحديد النص المراد نطقه بناءً على نوع البطاقة في الوضع المتسلسل
+                let textToSpeak;
+                if (card.dataset.type === 'synonym' || card.dataset.type === 'antonym') {
+                    // دمج الكلمة الأصلية وقائمة المرادفات/المتضادات الإنجليزية للنطق
+                    textToSpeak = `${word.en} ${card.dataset.type}. ${word.ar}`;
+                } else {
+                    // نطق الكلمة الإنجليزية الأساسية أو التعبير/المتلازمة
+                    textToSpeak = word.en;
+                }
+                
+                speakWord(textToSpeak, card, true);
+            } else {
+                currentWordIndex++;
+                playNextWord();
+            }
+        }
+
+        // 5. تهيئة حدث زر "تشغيل الكل"
+        playAllBtn.addEventListener('click', () => {
+            stopReading(); 
+            isReadingAll = true; 
+            currentWordIndex = 0; 
+            playNextWord(); 
+        });
+
+        // 6. تهيئة حدث زر "إيقاف"
+        stopBtn.addEventListener('click', stopReading);
+        
+        // 7. تشغيل وظيفة العرض عند تحميل الصفحة
+        window.onload = () => {
+            renderWords();
+            // تحديث قائمة الأصوات بعد تحميل الصفحة
+            if (speechSynthesizer.onvoiceschanged !== undefined) {
+                speechSynthesizer.onvoiceschanged = renderWords; 
+            }
+        };
+
+    </script>
+</body>
+</html>
